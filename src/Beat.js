@@ -21,10 +21,11 @@ class Beat {
     if (!this.isLooping) {
       return
     }
+    const secondsPerBeat = 60 / this.bpm
     for (
-      let next = this.last + 60 / this.bpm;
+      let next = this.last + secondsPerBeat;
       next < this.context.currentTime + 0.1;
-      next += 60 / this.bpm
+      next += secondsPerBeat
     ) {
       this.synth.playSound(next)
       this.last = next
