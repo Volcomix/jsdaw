@@ -1,6 +1,9 @@
 {
+  "name": "jsdaw",
+  "version": "0.0.1",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "build": "webpack"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
