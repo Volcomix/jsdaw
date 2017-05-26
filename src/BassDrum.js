@@ -79,7 +79,7 @@ class BassDrum {
     pitchBendGain.gain.value = 1
 
     const vca = this.context.createGain()
-    vca.gain.setValueAtTime(10, when)
+    vca.gain.setValueAtTime(1, when)
     vca.gain.linearRampToValueAtTime(0, when + duration)
 
     body.connect(bodyGain)
