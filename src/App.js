@@ -7,7 +7,7 @@ const context = new AudioContext()
 const bassDrum = new BassDrum(context, context.destination)
 
 const App = () => (
-  <Beat min={43} max={240} context={context} synth={bassDrum} />
+  <Beat context={context} synth={bassDrum} />
 )
 
 export default App

@@ -3,6 +3,8 @@ import React from 'react'
 import Beat from './Beat'
 
 class BeatComponent extends React.Component {
+  static defaultProps = { min: 43, max: 240 }
+
   constructor(props) {
     super(props)
     this.beat = new Beat(props.context, props.synth)
