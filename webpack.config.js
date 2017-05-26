@@ -1,15 +1,17 @@
 var path = require('path')
 
 module.exports = {
-  entry: './app/index',
+  entry: './src/index',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
   },
   devtool: 'cheap-module-eval-source-map ',
+  devServer: {
+    contentBase: path.resolve(__dirname, 'public'),
+  },
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
     ],
   },
 }
