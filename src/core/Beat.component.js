@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Knob from '../shared/Knob.component'
 import Beat from './Beat'
 
 class BeatComponent extends React.Component {
@@ -25,6 +26,13 @@ class BeatComponent extends React.Component {
     const { bpm, isLooping } = this.state
     return (
       <div>
+        <Knob
+          width={64}
+          lineWidth={10}
+          label='bpm'
+          value={bpm}
+          onChange={this.handleBpmChange}
+        />
         <input
           type='range'
           min={min}
