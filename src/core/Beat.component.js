@@ -30,6 +30,8 @@ class BeatComponent extends React.Component {
           width={64}
           lineWidth={10}
           label='bpm'
+          min={min}
+          max={max}
           value={bpm}
           onChange={this.handleBpmChange}
         />

@@ -4,6 +4,7 @@ import { keyColor, borderColor } from './styles'
 
 const minAngle = Math.PI * 0.75
 const maxAngle = Math.PI * 0.25
+const selectableAngle = Math.PI * 2 - minAngle + maxAngle
 
 class Knob extends React.Component {
   get width() {
@@ -11,6 +12,10 @@ class Knob extends React.Component {
   }
 
   componentDidMount() {
+    this.draw()
+  }
+
+  componentDidUpdate() {
     this.draw()
   }
 
@@ -39,22 +44,39 @@ class Knob extends React.Component {
   }
 
   draw = () => {
-    const { lineWidth } = this.props
+    const { value, min, max, lineWidth } = this.props
     const width = this.width
     const center = width / 2
     const radius = center - lineWidth / 2
 
+    let angle
+    if (value >= max) {
+      angle = maxAngle
+    } else if (value < min) {
+      angle = minAngle
+    } else {
+      angle = selectableAngle * (value - min) / (max - min) + minAngle
+    }
+
     const ctx = this.canvas.getContext('2d')
     ctx.lineWidth = lineWidth
+    ctx.clearRect(0, 0, width, width)
 
+    this.drawBackground(ctx, center, radius, angle)
+    this.drawValue(ctx, center, radius, angle)
+  }
+
+  drawBackground = (ctx, center, radius, angle) => {
     ctx.strokeStyle = borderColor
     ctx.beginPath()
-    ctx.arc(center, center, radius, minAngle, maxAngle, false)
+    ctx.arc(center, center, radius, angle, maxAngle, false)
     ctx.stroke()
+  }
 
+  drawValue = (ctx, center, radius, angle) => {
     ctx.strokeStyle = keyColor
     ctx.beginPath()
-    ctx.arc(center, center, radius, minAngle, Math.PI * 1.5, false)
+    ctx.arc(center, center, radius, minAngle, angle, false)
     ctx.stroke()
   }
 }
