@@ -2,6 +2,7 @@ import React from 'react'
 
 import Knob from '../shared/Knob.component'
 import Beat from './Beat'
+import { keyColor } from '../shared/styles'
 
 class BeatComponent extends React.Component {
   static defaultProps = { min: 43, max: 240 }
@@ -25,7 +26,7 @@ class BeatComponent extends React.Component {
     const { min, max } = this.props
     const { bpm, isLooping } = this.state
     return (
-      <div>
+      <div style={styles.container}>
         <Knob
           width={64}
           lineWidth={10}
@@ -35,9 +36,13 @@ class BeatComponent extends React.Component {
           value={bpm}
           onValueChange={this.handleBpmChange}
         />
-        <button onClick={this.handleButtonClick}>
-          {isLooping ? 'Stop' : 'Play'}
-        </button>
+        <i
+          className='material-icons'
+          style={styles.icon}
+          onClick={this.handleButtonClick}
+        >
+          {isLooping ? 'pause_circle_filled' : 'play_circle_filled'}
+        </i>
       </div>
     )
   }
@@ -56,6 +61,23 @@ class BeatComponent extends React.Component {
     }
     this.setState({ isLooping: !isLooping })
   }
+}
+
+const styles = {
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  icon: {
+    fontSize: 48,
+    color: keyColor,
+    cursor: 'default',
+    userSelect: 'none',
+    MozUserSelect: 'none',
+    KhtmlUserSelect: 'none',
+    WebkitUserSelect: 'none',
+    OUserSelect: 'none',
+  },
 }
 
 export default BeatComponent
