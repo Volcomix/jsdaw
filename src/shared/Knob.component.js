@@ -20,7 +20,7 @@ class Knob extends React.Component {
   }
 
   render() {
-    const { label, value, onChange } = this.props
+    const { label, value } = this.props
     const width = this.width
     return (
       <span style={{ width, height: width, ...styles.container }}>
@@ -36,7 +36,7 @@ class Knob extends React.Component {
           id='input'
           type='text'
           value={value}
-          onChange={onChange}
+          onChange={this.handleInputChange}
           style={styles.input}
         />
         <label htmlFor='input' style={styles.label}>{label}</label>
@@ -81,6 +81,10 @@ class Knob extends React.Component {
     ctx.stroke()
   }
 
+  handleInputChange = event => {
+    this.props.onValueChange(event.target.value)
+  }
+
   handleMouseDown = event => {
     this.handleMouseMove(event)
     document.addEventListener('mousemove', this.handleMouseMove)
@@ -88,8 +92,22 @@ class Knob extends React.Component {
   }
 
   handleMouseMove = event => {
+    const { min, max, onValueChange } = this.props
+    const center = this.width / 2
     const rect = this.canvas.getBoundingClientRect()
-    console.log(`${event.clientX - rect.left}, ${event.clientY - rect.top}`)
+    const x = event.clientX - rect.left - center
+    const y = event.clientY - rect.top - center
+
+    let angle = Math.atan2(y, x)
+    if (angle < minAngle) {
+      angle += Math.PI * 2
+    }
+
+    const value = (angle - minAngle) * (max - min) / selectableAngle + min
+    if (value >= min && value <= max) {
+      onValueChange(Math.round(value))
+    }
+
   }
 
   handleMouseUp = () => {

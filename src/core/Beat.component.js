@@ -33,23 +33,7 @@ class BeatComponent extends React.Component {
           min={min}
           max={max}
           value={bpm}
-          onChange={this.handleBpmChange}
-        />
-        <input
-          type='range'
-          min={min}
-          max={max}
-          step={1}
-          value={bpm}
-          onChange={this.handleBpmChange}
-        />
-        <input
-          type='number'
-          min={min}
-          max={max}
-          step={1}
-          value={bpm}
-          onChange={this.handleBpmChange}
+          onValueChange={this.handleBpmChange}
         />
         <button onClick={this.handleButtonClick}>
           {isLooping ? 'Stop' : 'Play'}
@@ -58,9 +42,9 @@ class BeatComponent extends React.Component {
     )
   }
 
-  handleBpmChange = (event) => {
-    this.beat.bpm = event.target.value
-    this.setState({ bpm: this.beat.bpm })
+  handleBpmChange = bpm => {
+    this.beat.bpm = bpm
+    this.setState({ bpm })
   }
 
   handleButtonClick = () => {
