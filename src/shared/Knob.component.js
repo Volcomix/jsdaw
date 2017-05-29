@@ -29,6 +29,7 @@ class Knob extends React.Component {
           height={width}
           ref={canvas => this.canvas = canvas}
           style={styles.canvas}
+          onMouseDown={this.handleMouseDown}
         >
         </canvas>
         <input
@@ -79,6 +80,22 @@ class Knob extends React.Component {
     ctx.arc(center, center, radius, minAngle, angle, false)
     ctx.stroke()
   }
+
+  handleMouseDown = event => {
+    this.handleMouseMove(event)
+    document.addEventListener('mousemove', this.handleMouseMove)
+    document.addEventListener('mouseup', this.handleMouseUp)
+  }
+
+  handleMouseMove = event => {
+    const rect = this.canvas.getBoundingClientRect()
+    console.log(`${event.clientX - rect.left}, ${event.clientY - rect.top}`)
+  }
+
+  handleMouseUp = () => {
+    document.removeEventListener('mousemove', this.handleMouseMove)
+    document.removeEventListener('mouseup', this.handleMouseUp)
+  }
 }
 
 const styles = {
@@ -98,6 +115,7 @@ const styles = {
     fontSize: 16,
     zIndex: 10,
     border: 'none',
+    outline: 'none',
     backgroundColor: 'transparent',
     textAlign: 'center',
     color: keyColor,
