@@ -2,7 +2,7 @@ import React from 'react'
 
 import Knob from '../shared/Knob.component'
 import Beat from './Beat'
-import { keyColor } from '../shared/styles'
+import { keyColor, borderColor } from '../shared/styles'
 
 class BeatComponent extends React.Component {
   static defaultProps = { min: 43, max: 240 }
@@ -38,7 +38,7 @@ class BeatComponent extends React.Component {
         />
         <i
           className='material-icons'
-          style={styles.icon}
+          style={{ color: isLooping ? keyColor : borderColor, ...styles.icon }}
           onClick={this.handleButtonClick}
         >
           {isLooping ? 'pause_circle_filled' : 'play_circle_filled'}
@@ -70,7 +70,6 @@ const styles = {
   },
   icon: {
     fontSize: 48,
-    color: keyColor,
     cursor: 'default',
     userSelect: 'none',
     MozUserSelect: 'none',
