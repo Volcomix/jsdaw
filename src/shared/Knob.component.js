@@ -108,6 +108,7 @@ class Knob extends React.Component {
       onValueChange(Math.round(value))
     }
 
+    event.preventDefault()
   }
 
   handleMouseUp = () => {
