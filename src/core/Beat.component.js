@@ -28,8 +28,9 @@ class BeatComponent extends React.Component {
     return (
       <div style={styles.container}>
         <Knob
-          width={64}
-          lineWidth={10}
+          width={96}
+          lineWidth={1.5}
+          knobRadius={10}
           label='bpm'
           min={min}
           max={max}

@@ -2,9 +2,9 @@ import React from 'react'
 
 import { keyColor, borderColor } from './styles'
 
-const minAngle = Math.PI * 0.75
-const maxAngle = Math.PI * 0.25
-const selectableAngle = Math.PI * 2 - minAngle + maxAngle
+const minAngle = 0.75 * Math.PI
+const maxAngle = 0.25 * Math.PI
+const selectableAngle = 2 * Math.PI - minAngle + maxAngle
 
 class Knob extends React.Component {
   get width() {
@@ -20,7 +20,7 @@ class Knob extends React.Component {
   }
 
   render() {
-    const { label, value } = this.props
+    const { label, value, knobRadius } = this.props
     const width = this.width
     return (
       <span style={{ width, height: width, ...styles.container }}>
@@ -37,18 +37,29 @@ class Knob extends React.Component {
           type='text'
           value={value}
           onChange={this.handleInputChange}
-          style={styles.input}
+          style={{
+            width: width - 4 * (knobRadius + styles.knob.shadowBlur),
+            ...styles.input,
+          }}
         />
-        <label htmlFor='input' style={styles.label}>{label}</label>
+        <label
+          htmlFor='input'
+          style={{
+            bottom: knobRadius + styles.knob.shadowBlur,
+            ...styles.label,
+          }}
+        >
+          {label}
+        </label>
       </span>
     )
   }
 
   draw = () => {
-    const { value, min, max, lineWidth } = this.props
+    const { value, min, max, lineWidth, knobRadius } = this.props
     const width = this.width
     const center = width / 2
-    const radius = center - lineWidth / 2
+    const radius = center - lineWidth / 2 - knobRadius - styles.knob.shadowBlur
 
     let angle
     if (value >= max) {
@@ -61,24 +72,39 @@ class Knob extends React.Component {
 
     const ctx = this.canvas.getContext('2d')
     ctx.lineWidth = lineWidth
+    ctx.shadowOffsetY = 0
+    ctx.shadowBlur = 0
     ctx.clearRect(0, 0, width, width)
 
     this.drawBackground(ctx, center, radius, angle)
     this.drawValue(ctx, center, radius, angle)
+    this.drawKnob(ctx, center, radius, angle, knobRadius)
   }
 
   drawBackground = (ctx, center, radius, angle) => {
     ctx.strokeStyle = borderColor
     ctx.beginPath()
-    ctx.arc(center, center, radius, angle, maxAngle, false)
+    ctx.arc(center, center, radius, angle, maxAngle)
     ctx.stroke()
   }
 
   drawValue = (ctx, center, radius, angle) => {
     ctx.strokeStyle = keyColor
     ctx.beginPath()
-    ctx.arc(center, center, radius, minAngle, angle, false)
+    ctx.arc(center, center, radius, minAngle, angle)
     ctx.stroke()
+  }
+
+  drawKnob = (ctx, center, radius, angle, knobRadius) => {
+    const x = center + Math.cos(angle) * radius
+    const y = center + Math.sin(angle) * radius
+    ctx.fillStyle = styles.knob.fillStyle
+    ctx.shadowColor = styles.knob.shadowColor
+    ctx.shadowOffsetY = styles.knob.shadowOffsetY
+    ctx.shadowBlur = styles.knob.shadowBlur
+    ctx.beginPath()
+    ctx.arc(x, y, knobRadius, 0, 2 * Math.PI)
+    ctx.fill()
   }
 
   handleInputChange = event => {
@@ -100,7 +126,7 @@ class Knob extends React.Component {
 
     let angle = Math.atan2(y, x)
     if (angle < minAngle) {
-      angle += Math.PI * 2
+      angle += 2 * Math.PI
     }
 
     const value = (angle - minAngle) * (max - min) / selectableAngle + min
@@ -130,7 +156,6 @@ const styles = {
     left: 0,
   },
   input: {
-    width: 40,
     fontSize: 16,
     zIndex: 10,
     border: 'none',
@@ -141,14 +166,15 @@ const styles = {
   },
   label: {
     position: 'absolute',
-    bottom: 0,
-    left: '50%',
-    width: 30,
-    marginLeft: -15,
-    textAlign: 'center',
     fontSize: 14,
     color: borderColor,
   },
+  knob: {
+    fillStyle: 'white',
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOffsetY: 3,
+    shadowBlur: 5,
+  }
 }
 
 export default Knob
