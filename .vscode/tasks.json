@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0",
+  "command": "yarn",
+  "isShellCommand": true,
+  "showOutput": "always",
+  "tasks": [
+    {
+      "taskName": "build"
+    },
+    {
+      "taskName": "start",
+      "isBuildCommand": true
+    }
+  ]
+}

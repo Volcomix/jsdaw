@@ -174,7 +174,7 @@ const styles = {
     shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowOffsetY: 3,
     shadowBlur: 5,
-  }
+  },
 }
 
 export default Knob
