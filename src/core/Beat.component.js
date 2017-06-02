@@ -82,7 +82,10 @@ const styles = {
     OUserSelect: 'none',
     borderRadius: '50%',
     padding: 4,
-    boxShadow: 'inset 0px 3px 5px white, inset 0px -3px 5px rgba(0, 0, 0, 0.2)',
+    boxShadow: `
+      inset 0px 3px 1px white,
+      inset 0px -3px 1px rgba(0, 0, 0, 0.2),
+      0px 3px 5px rgba(0, 0, 0, 0.1)`,
   },
   deactivatedIcon: {
     color: `${borderColor}88`,
