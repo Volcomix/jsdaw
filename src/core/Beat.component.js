@@ -82,18 +82,27 @@ const styles = {
     OUserSelect: 'none',
     borderRadius: '50%',
     padding: 4,
-    boxShadow: `
-      inset 0px 3px 1px white,
-      inset 0px -3px 1px rgba(0, 0, 0, 0.2),
-      0px 3px 5px rgba(0, 0, 0, 0.1)`,
   },
   deactivatedIcon: {
     color: `${borderColor}88`,
     textShadow: `0px 2px 2px ${backgroundColor}, 0px 0px 0px rgba(0, 0, 0, 0.5)`,
+    boxShadow: `
+      inset 0px 3px 1px white,
+      inset 0px -3px 1px rgba(0, 0, 0, 0.2),
+      0px 3px 5px white,
+      0px -3px 5px rgba(0, 0, 0, 0.2)
+    `,
   },
   activatedIcon: {
     color: `${keyColor}cc`,
     textShadow: '0px 3px 3px white, 0px 0px 0px black',
+    boxShadow: `
+      inset 0px 3px 1px white,
+      inset 0px -3px 1px rgba(0, 0, 0, 0.2),
+      0px 0px 4px ${keyColor},
+      0px 3px 5px white,
+      0px -3px 5px rgba(0, 0, 0, 0.2)
+    `,
   },
 }
 
