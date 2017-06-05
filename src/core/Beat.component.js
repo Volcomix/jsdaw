@@ -103,10 +103,10 @@ const styles = {
     color: keyColor,
   },
   buttonDown: {
-    boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.5), 0px -1px 1px white',
+    boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.3), 0px -1px 1px white',
   },
   buttonUp: {
-    boxShadow: '0px 9px 9px rgba(0, 0, 0, 0.5), 0px -5px 5px white',
+    boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.3), 0px -5px 5px white',
   }
 }
 
