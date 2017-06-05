@@ -2,7 +2,7 @@ import React from 'react'
 
 import Knob from '../shared/Knob.component'
 import Beat from './Beat'
-import { keyColor, borderColor, backgroundColor } from '../shared/styles'
+import { keyColor, borderColor } from '../shared/styles'
 
 class BeatComponent extends React.Component {
   static defaultProps = { min: 43, max: 240 }
@@ -10,7 +10,7 @@ class BeatComponent extends React.Component {
   constructor(props) {
     super(props)
     this.beat = new Beat(props.context, props.synth)
-    this.state = { bpm: this.beat.bpm, isLooping: false }
+    this.state = { bpm: this.beat.bpm, isLooping: false, isButtonDown: false }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -24,7 +24,7 @@ class BeatComponent extends React.Component {
 
   render() {
     const { min, max } = this.props
-    const { bpm, isLooping } = this.state
+    const { bpm, isLooping, isButtonDown } = this.state
     return (
       <div style={styles.container}>
         <Knob
@@ -40,10 +40,14 @@ class BeatComponent extends React.Component {
         <i
           className='material-icons'
           style={{
+            ...isButtonDown ? styles.buttonDown : styles.buttonUp,
             ...isLooping ? styles.activatedIcon : styles.deactivatedIcon,
             ...styles.icon
           }}
           onClick={this.handleButtonClick}
+          onMouseDown={this.handleButtonDown}
+          onMouseOut={this.handleButtonUp}
+          onMouseUp={this.handleButtonUp}
         >
           {isLooping ? 'pause' : 'play_arrow'}
         </i>
@@ -65,6 +69,14 @@ class BeatComponent extends React.Component {
     }
     this.setState({ isLooping: !isLooping })
   }
+
+  handleButtonDown = () => {
+    this.setState({ isButtonDown: true })
+  }
+
+  handleButtonUp = () => {
+    this.setState({ isButtonDown: false })
+  }
 }
 
 const styles = {
@@ -73,7 +85,7 @@ const styles = {
     alignItems: 'center',
   },
   icon: {
-    fontSize: 48,
+    fontSize: 36,
     cursor: 'default',
     userSelect: 'none',
     MozUserSelect: 'none',
@@ -82,28 +94,20 @@ const styles = {
     OUserSelect: 'none',
     borderRadius: '50%',
     padding: 4,
+    transition: 'box-shadow 100ms',
   },
   deactivatedIcon: {
-    color: `${borderColor}88`,
-    textShadow: `0px 2px 2px ${backgroundColor}, 0px 0px 0px rgba(0, 0, 0, 0.5)`,
-    boxShadow: `
-      inset 0px 3px 1px white,
-      inset 0px -3px 1px rgba(0, 0, 0, 0.2),
-      0px 3px 5px white,
-      0px -3px 5px rgba(0, 0, 0, 0.2)
-    `,
+    color: borderColor,
   },
   activatedIcon: {
-    color: `${keyColor}cc`,
-    textShadow: '0px 3px 3px white, 0px 0px 0px black',
-    boxShadow: `
-      inset 0px 3px 1px white,
-      inset 0px -3px 1px rgba(0, 0, 0, 0.2),
-      0px 0px 4px ${keyColor},
-      0px 3px 5px white,
-      0px -3px 5px rgba(0, 0, 0, 0.2)
-    `,
+    color: keyColor,
   },
+  buttonDown: {
+    boxShadow: '0px 0px 1px rgba(0, 0, 0, 0.5)',
+  },
+  buttonUp: {
+    boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.5)',
+  }
 }
 
 export default BeatComponent

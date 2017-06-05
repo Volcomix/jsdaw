@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { keyColor, borderColor, backgroundColor } from './styles'
+import { keyColor, borderColor } from './styles'
 
 const minAngle = 0.75 * Math.PI
 const maxAngle = 0.25 * Math.PI
@@ -170,7 +170,7 @@ const styles = {
     color: borderColor,
   },
   knob: {
-    fillStyle: backgroundColor,
+    fillStyle: 'white',
     shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowOffsetY: 3,
     shadowBlur: 5,
