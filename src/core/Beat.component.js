@@ -94,7 +94,7 @@ const styles = {
     OUserSelect: 'none',
     borderRadius: '50%',
     padding: 4,
-    transition: 'box-shadow 100ms',
+    transition: 'box-shadow 150ms',
   },
   deactivatedIcon: {
     color: borderColor,
@@ -103,10 +103,10 @@ const styles = {
     color: keyColor,
   },
   buttonDown: {
-    boxShadow: '0px 0px 1px rgba(0, 0, 0, 0.5)',
+    boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.5), 0px -1px 1px white',
   },
   buttonUp: {
-    boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.5)',
+    boxShadow: '0px 9px 9px rgba(0, 0, 0, 0.5), 0px -5px 5px white',
   }
 }
 

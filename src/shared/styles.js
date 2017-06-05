@@ -1,2 +1,3 @@
 export const keyColor = '#007AFF'
-export const borderColor = '#C7C7CC'
+export const borderColor = '#AEAEB6'
+export const backgroundColor = '#EEEEEE'
