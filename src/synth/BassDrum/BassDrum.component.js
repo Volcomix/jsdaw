@@ -1,8 +1,8 @@
 import React from 'react'
 
-import BassDrum from './BassDrum'
+import Body from './Body.component'
 
-class BassDrumComponent extends React.Component {
+class BassDrum extends React.Component {
 
   constructor(props) {
     super(props)
@@ -23,7 +23,7 @@ class BassDrumComponent extends React.Component {
   }
 
   render() {
-    const { duration, gain } = this.state
+    const { duration, gain, body } = this.state
     return (
       <div>
         <input
@@ -40,6 +40,7 @@ class BassDrumComponent extends React.Component {
           value={gain}
           onChange={this.handleGainChange}
         />
+        <Body value={body} onChange={this.handleBodyChange} />
       </div>
     )
   }
@@ -53,6 +54,11 @@ class BassDrumComponent extends React.Component {
     this.synth.gain = event.target.valueAsNumber
     this.setState({ gain: this.synth.gain })
   }
+
+  handleBodyChange = body => {
+    this.synth.body = body
+    this.setState({ body })
+  }
 }
 
-export default BassDrumComponent
+export default BassDrum

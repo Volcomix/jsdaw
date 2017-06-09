@@ -1,8 +1,8 @@
 import React from 'react'
 
 import Beat from './core/Beat.component'
-import BassDrum from './synth/BassDrum.component'
-import BassDrumSynth from './synth/BassDrum'
+import BassDrum from './synth/BassDrum/BassDrum.component'
+import BassDrumSynth from './synth/BassDrum/BassDrum'
 
 const context = new AudioContext()
 const bassDrumSynth = new BassDrumSynth(context, context.destination)
