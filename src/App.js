@@ -1,13 +1,17 @@
 import React from 'react'
 
 import Beat from './core/Beat.component'
-import BassDrum from './synth/BassDrum'
+import BassDrum from './synth/BassDrum.component'
+import BassDrumSynth from './synth/BassDrum'
 
 const context = new AudioContext()
-const bassDrum = new BassDrum(context, context.destination)
+const bassDrumSynth = new BassDrumSynth(context, context.destination)
 
 const App = () => (
-  <Beat context={context} synth={bassDrum} />
+  <div>
+    <Beat context={context} synth={bassDrumSynth} />
+    <BassDrum synth={bassDrumSynth} />
+  </div>
 )
 
 export default App

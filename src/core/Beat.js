@@ -1,9 +1,10 @@
 class Beat {
+  bpm = 120
+  isLooping = false
+
   constructor(context, synth) {
     this.context = context
     this.synth = synth
-    this.bpm = 120
-    this.isLooping = false
   }
 
   start() {
