@@ -26,6 +26,7 @@ class BassDrum extends React.Component {
     const { duration, gain, body } = this.state
     return (
       <div>
+        <label>Duration</label>
         <input
           type='number'
           min={0}
@@ -33,6 +34,7 @@ class BassDrum extends React.Component {
           value={duration}
           onChange={this.handleDurationChange}
         />
+        <label>Gain</label>
         <input
           type='number'
           min={0}
