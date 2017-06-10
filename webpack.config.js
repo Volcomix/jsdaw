@@ -10,6 +10,9 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname, 'public'),
   },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   module: {
     rules: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
