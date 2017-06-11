@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Body from './Body.component'
+import Click from './Click.component'
 
 class BassDrum extends React.Component {
 
@@ -23,7 +24,7 @@ class BassDrum extends React.Component {
   }
 
   render() {
-    const { duration, gain, body } = this.state
+    const { duration, gain, body, click } = this.state
     return (
       <div>
         <label>Duration</label>
@@ -43,6 +44,7 @@ class BassDrum extends React.Component {
           onChange={this.handleGainChange}
         />
         <Body value={body} onChange={this.handleBodyChange} />
+        <Click value={click} onChange={this.handleClickChange} />
       </div>
     )
   }
@@ -60,6 +62,11 @@ class BassDrum extends React.Component {
   handleBodyChange = body => {
     this.synth.body = body
     this.setState({ body })
+  }
+
+  handleClickChange = click => {
+    this.synth.click = click
+    this.setState({ click })
   }
 }
 
