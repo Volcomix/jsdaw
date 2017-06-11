@@ -1,8 +1,9 @@
 import React from 'react'
 
+import Card from '../../shared/Card.component'
+
 const PitchBend = ({ value, onValueChange }) => (
-  <fieldset>
-    <legend>Pitch bend</legend>
+  <Card title='Pitch bend'>
     <label>Start frequency</label>
     <input
       type='number'
@@ -62,7 +63,7 @@ const PitchBend = ({ value, onValueChange }) => (
         })}
       />
     </fieldset>
-  </fieldset>
+  </Card>
 )
 
 export default PitchBend

@@ -1,8 +1,9 @@
 import React from 'react'
 
+import Card from '../../shared/Card.component'
+
 const Click = ({ value, onValueChange }) => (
-  <fieldset>
-    <legend>Click</legend>
+  <Card title='Click'>
     <label>Duration</label>
     <input
       type='number'
@@ -23,7 +24,7 @@ const Click = ({ value, onValueChange }) => (
         frequency: event.target.valueAsNumber
       })}
     />
-  </fieldset>
+  </Card>
 )
 
 export default Click

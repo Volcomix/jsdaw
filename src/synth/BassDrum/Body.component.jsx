@@ -1,8 +1,9 @@
 import React from 'react'
 
+import Card from '../../shared/Card.component'
+
 const Body = ({ value, onValueChange }) => (
-  <fieldset>
-    <legend>Body</legend>
+  <Card title='Body'>
     <label>Frequency</label>
     <input
       type='number'
@@ -81,7 +82,7 @@ const Body = ({ value, onValueChange }) => (
         })}
       />
     </fieldset>
-  </fieldset>
+  </Card>
 )
 
 export default Body
