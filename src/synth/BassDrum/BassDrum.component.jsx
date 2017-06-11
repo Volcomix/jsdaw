@@ -2,6 +2,7 @@ import React from 'react'
 
 import Body from './Body.component'
 import Click from './Click.component'
+import PitchBend from './PitchBend.component'
 
 class BassDrum extends React.Component {
 
@@ -24,7 +25,7 @@ class BassDrum extends React.Component {
   }
 
   render() {
-    const { duration, gain, body, click } = this.state
+    const { duration, gain, body, click, pitchBend } = this.state
     return (
       <div>
         <label>Duration</label>
@@ -45,6 +46,7 @@ class BassDrum extends React.Component {
         />
         <Body value={body} onChange={this.handleBodyChange} />
         <Click value={click} onChange={this.handleClickChange} />
+        <PitchBend value={pitchBend} onChange={this.handlePitchBendChange} />
       </div>
     )
   }
@@ -67,6 +69,11 @@ class BassDrum extends React.Component {
   handleClickChange = click => {
     this.synth.click = click
     this.setState({ click })
+  }
+
+  handlePitchBendChange = pitchBend => {
+    this.synth.pitchBend = pitchBend
+    this.setState({ pitchBend })
   }
 }
 
