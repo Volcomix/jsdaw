@@ -1,55 +1,38 @@
 import React from 'react'
 
 import Card from '../../shared/Card.component'
+import Knob from '../../shared/Knob.component'
 
 const Body = ({ value, onValueChange }) => (
   <Card title='Body'>
-    <label>Frequency</label>
-    <input
-      type='number'
-      min={0}
+    <Knob
+      label='Frequency'
       step={1}
       value={value.frequency}
-      onChange={event => onValueChange({
-        frequency: event.target.valueAsNumber
-      })}
+      onValueChange={frequency => onValueChange({ frequency })}
     />
-    <label>Gain</label>
-    <input
-      type='number'
-      min={0}
+    <Knob
+      label='Gain'
       step={0.01}
       value={value.gain}
-      onChange={event => onValueChange({
-        gain: event.target.valueAsNumber
-      })}
+      onValueChange={gain => onValueChange({ gain })}
     />
     <fieldset>
       <legend>Modulator</legend>
-      <label>Frequency</label>
-      <input
-        type='number'
-        min={0}
+      <Knob
+        label='Frequency'
         step={1}
         value={value.modulator.frequency}
-        onChange={event => onValueChange({
-          modulator: {
-            ...value.modulator,
-            frequency: event.target.valueAsNumber,
-          }
+        onValueChange={frequency => onValueChange({
+          modulator: { ...value.modulator, frequency }
         })}
       />
-      <label>Gain</label>
-      <input
-        type='number'
-        min={0}
+      <Knob
+        label='Gain'
         step={1}
         value={value.modulator.gain}
-        onChange={event => onValueChange({
-          modulator: {
-            ...value.modulator,
-            gain: event.target.valueAsNumber,
-          }
+        onValueChange={gain => onValueChange({
+          modulator: { ...value.modulator, gain }
         })}
       />
     </fieldset>

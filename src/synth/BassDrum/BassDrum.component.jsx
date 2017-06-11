@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Knob from '../../shared/Knob.component'
 import Body from './Body.component'
 import Click from './Click.component'
 import PitchBend from './PitchBend.component'
@@ -28,44 +29,40 @@ class BassDrum extends React.Component {
     const { duration, gain, body, click, pitchBend } = this.state
     return (
       <div>
-        <label>Duration</label>
-        <input
-          type='number'
-          min={0}
+        <Knob
+          label='Duration'
           step={0.01}
           value={duration}
-          onChange={event => this.handleInputChange('duration', event)}
+          onValueChange={value => this.handleKnobChange('duration', value)}
         />
-        <label>Gain</label>
-        <input
-          type='number'
-          min={0}
+        <Knob
+          label='Gain'
           step={0.01}
           value={gain}
-          onChange={event => this.handleInputChange('gain', event)}
+          onValueChange={value => this.handleKnobChange('gain', value)}
         />
         <Body
           value={body}
-          onValueChange={value => this.handleValueChange('body', value)}
+          onValueChange={value => this.handlePartChange('body', value)}
         />
         <Click
           value={click}
-          onValueChange={value => this.handleValueChange('click', value)}
+          onValueChange={value => this.handlePartChange('click', value)}
         />
         <PitchBend
           value={pitchBend}
-          onValueChange={value => this.handleValueChange('pitchBend', value)}
+          onValueChange={value => this.handlePartChange('pitchBend', value)}
         />
       </div>
     )
   }
 
-  handleInputChange = (key, event) => {
-    this.synth[key] = event.target.valueAsNumber
-    this.setState({ [key]: this.synth[key] })
+  handleKnobChange = (key, value) => {
+    this.synth[key] = value
+    this.setState({ [key]: value })
   }
 
-  handleValueChange = (key, nextValue) => {
+  handlePartChange = (key, nextValue) => {
     const value = this.state[key]
     this.synth[key] = { ...value, ...nextValue }
     this.setState({ [key]: this.synth[key] })
