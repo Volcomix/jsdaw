@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Knob from '../shared/Knob.component'
+import RadialSlider from '../shared/RadialSlider.component'
 import Beat from './Beat'
 import { keyColor, borderColor } from '../shared/styles'
 
@@ -31,7 +31,7 @@ class BeatComponent extends React.Component {
     const { bpm, isLooping, isButtonDown } = this.state
     return (
       <div style={styles.container}>
-        <Knob
+        <RadialSlider
           width={96}
           lineWidth={1.5}
           knobRadius={10}

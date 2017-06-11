@@ -6,7 +6,7 @@ const minAngle = 0.75 * Math.PI
 const maxAngle = 0.25 * Math.PI
 const selectableAngle = 2 * Math.PI - minAngle + maxAngle
 
-class Knob extends React.Component {
+class RadialSlider extends React.Component {
   get width() {
     return this.props.width || this.props.height
   }
@@ -178,4 +178,4 @@ const styles = {
   },
 }
 
-export default Knob
+export default RadialSlider
