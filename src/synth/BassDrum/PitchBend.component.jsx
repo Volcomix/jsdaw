@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PitchBend = ({ value, onChange }) => (
+const PitchBend = ({ value, onValueChange }) => (
   <fieldset>
     <legend>Pitch bend</legend>
     <label>Start frequency</label>
@@ -9,7 +9,7 @@ const PitchBend = ({ value, onChange }) => (
       min={0}
       step={1}
       value={value.startFrequency}
-      onChange={event => onChange({
+      onChange={event => onValueChange({
         startFrequency: event.target.valueAsNumber
       })}
     />
@@ -19,7 +19,7 @@ const PitchBend = ({ value, onChange }) => (
       min={0}
       step={1}
       value={value.endFrequency}
-      onChange={event => onChange({
+      onChange={event => onValueChange({
         endFrequency: event.target.valueAsNumber
       })}
     />
@@ -29,7 +29,7 @@ const PitchBend = ({ value, onChange }) => (
       min={0}
       step={0.01}
       value={value.gain}
-      onChange={event => onChange({
+      onChange={event => onValueChange({
         gain: event.target.valueAsNumber
       })}
     />
@@ -41,7 +41,7 @@ const PitchBend = ({ value, onChange }) => (
         min={0}
         step={1}
         value={value.lowPassFilter.frequency}
-        onChange={event => onChange({
+        onChange={event => onValueChange({
           lowPassFilter: {
             ...value.lowPassFilter,
             frequency: event.target.valueAsNumber,
@@ -54,7 +54,7 @@ const PitchBend = ({ value, onChange }) => (
         min={0}
         step={0.01}
         value={value.lowPassFilter.Q}
-        onChange={event => onChange({
+        onChange={event => onValueChange({
           lowPassFilter: {
             ...value.lowPassFilter,
             Q: event.target.valueAsNumber,

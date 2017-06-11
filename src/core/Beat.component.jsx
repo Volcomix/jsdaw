@@ -10,7 +10,11 @@ class BeatComponent extends React.Component {
   constructor(props) {
     super(props)
     this.beat = new Beat(props.context, props.synth)
-    this.state = { bpm: this.beat.bpm, isLooping: false, isButtonDown: false }
+    this.state = {
+      bpm: this.beat.bpm,
+      isLooping: false,
+      isButtonDown: false,
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,7 +46,7 @@ class BeatComponent extends React.Component {
           style={{
             ...isButtonDown ? styles.buttonDown : styles.buttonUp,
             ...isLooping ? styles.activatedIcon : styles.deactivatedIcon,
-            ...styles.icon
+            ...styles.icon,
           }}
           onClick={this.handleButtonClick}
           onMouseDown={this.handleButtonDown}
@@ -107,7 +111,7 @@ const styles = {
   },
   buttonUp: {
     boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.3), 0px -5px 5px white',
-  }
+  },
 }
 
 export default BeatComponent

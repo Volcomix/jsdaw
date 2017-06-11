@@ -34,7 +34,7 @@ class BassDrum extends React.Component {
           min={0}
           step={0.01}
           value={duration}
-          onChange={this.handleDurationChange}
+          onChange={event => this.handleInputChange('duration', event)}
         />
         <label>Gain</label>
         <input
@@ -42,41 +42,33 @@ class BassDrum extends React.Component {
           min={0}
           step={0.01}
           value={gain}
-          onChange={this.handleGainChange}
+          onChange={event => this.handleInputChange('gain', event)}
         />
-        <Body value={body} onChange={this.handleBodyChange} />
-        <Click value={click} onChange={this.handleClickChange} />
-        <PitchBend value={pitchBend} onChange={this.handlePitchBendChange} />
+        <Body
+          value={body}
+          onValueChange={value => this.handleValueChange('body', value)}
+        />
+        <Click
+          value={click}
+          onValueChange={value => this.handleValueChange('click', value)}
+        />
+        <PitchBend
+          value={pitchBend}
+          onValueChange={value => this.handleValueChange('pitchBend', value)}
+        />
       </div>
     )
   }
 
-  handleDurationChange = event => {
-    this.synth.duration = event.target.valueAsNumber
-    this.setState({ duration: this.synth.duration })
+  handleInputChange = (key, event) => {
+    this.synth[key] = event.target.valueAsNumber
+    this.setState({ [key]: this.synth[key] })
   }
 
-  handleGainChange = event => {
-    this.synth.gain = event.target.valueAsNumber
-    this.setState({ gain: this.synth.gain })
-  }
-
-  handleBodyChange = nextBody => {
-    const { body } = this.state
-    this.synth.body = { ...body, ...nextBody }
-    this.setState({ body: this.synth.body })
-  }
-
-  handleClickChange = nextClick => {
-    const { click } = this.state
-    this.synth.click = { ...click, ...nextClick }
-    this.setState({ click: this.synth.click })
-  }
-
-  handlePitchBendChange = nextPitchBend => {
-    const { pitchBend } = this.state
-    this.synth.pitchBend = { ...pitchBend, ...nextPitchBend }
-    this.setState({ pitchBend: this.synth.pitchBend })
+  handleValueChange = (key, nextValue) => {
+    const value = this.state[key]
+    this.synth[key] = { ...value, ...nextValue }
+    this.setState({ [key]: this.synth[key] })
   }
 }
 

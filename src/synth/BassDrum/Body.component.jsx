@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Body = ({ value, onChange }) => (
+const Body = ({ value, onValueChange }) => (
   <fieldset>
     <legend>Body</legend>
     <label>Frequency</label>
@@ -9,7 +9,9 @@ const Body = ({ value, onChange }) => (
       min={0}
       step={1}
       value={value.frequency}
-      onChange={event => onChange({ frequency: event.target.valueAsNumber })}
+      onChange={event => onValueChange({
+        frequency: event.target.valueAsNumber
+      })}
     />
     <label>Gain</label>
     <input
@@ -17,7 +19,9 @@ const Body = ({ value, onChange }) => (
       min={0}
       step={0.01}
       value={value.gain}
-      onChange={event => onChange({ gain: event.target.valueAsNumber })}
+      onChange={event => onValueChange({
+        gain: event.target.valueAsNumber
+      })}
     />
     <fieldset>
       <legend>Modulator</legend>
@@ -27,7 +31,7 @@ const Body = ({ value, onChange }) => (
         min={0}
         step={1}
         value={value.modulator.frequency}
-        onChange={event => onChange({
+        onChange={event => onValueChange({
           modulator: {
             ...value.modulator,
             frequency: event.target.valueAsNumber,
@@ -40,7 +44,7 @@ const Body = ({ value, onChange }) => (
         min={0}
         step={1}
         value={value.modulator.gain}
-        onChange={event => onChange({
+        onChange={event => onValueChange({
           modulator: {
             ...value.modulator,
             gain: event.target.valueAsNumber,
@@ -56,7 +60,7 @@ const Body = ({ value, onChange }) => (
         min={0}
         step={1}
         value={value.bandPassFilter.frequency}
-        onChange={event => onChange({
+        onChange={event => onValueChange({
           bandPassFilter: {
             ...value.bandPassFilter,
             frequency: event.target.valueAsNumber,
@@ -69,7 +73,7 @@ const Body = ({ value, onChange }) => (
         min={0}
         step={0.01}
         value={value.bandPassFilter.Q}
-        onChange={event => onChange({
+        onChange={event => onValueChange({
           bandPassFilter: {
             ...value.bandPassFilter,
             Q: event.target.valueAsNumber,

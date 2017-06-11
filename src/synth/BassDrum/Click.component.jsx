@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Click = ({ value, onChange }) => (
+const Click = ({ value, onValueChange }) => (
   <fieldset>
     <legend>Click</legend>
     <label>Duration</label>
@@ -9,7 +9,9 @@ const Click = ({ value, onChange }) => (
       min={0}
       step={0.01}
       value={value.duration}
-      onChange={event => onChange({ duration: event.target.valueAsNumber })}
+      onChange={event => onValueChange({
+        duration: event.target.valueAsNumber
+      })}
     />
     <label>Frequency</label>
     <input
@@ -17,7 +19,9 @@ const Click = ({ value, onChange }) => (
       min={0}
       step={1}
       value={value.frequency}
-      onChange={event => onChange({ frequency: event.target.valueAsNumber })}
+      onChange={event => onValueChange({
+        frequency: event.target.valueAsNumber
+      })}
     />
   </fieldset>
 )

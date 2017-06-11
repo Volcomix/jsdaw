@@ -59,7 +59,8 @@ class Knob extends React.Component {
     const { value, min, max, lineWidth, knobRadius } = this.props
     const width = this.width
     const center = width / 2
-    const radius = center - lineWidth / 2 - knobRadius - styles.knob.shadowBlur
+    const { shadowBlur } = styles.knob
+    const radius = center - lineWidth / 2 - knobRadius - shadowBlur
 
     let angle
     if (value >= max) {
