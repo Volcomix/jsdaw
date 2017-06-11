@@ -57,17 +57,17 @@ const Body = ({ value, onChange }) => (
       />
     </fieldset>
     <fieldset>
-      <legend>High pass filter</legend>
+      <legend>Band pass filter</legend>
       <label>Frequency</label>
       <input
         type='number'
         min={0}
         step={1}
-        value={value.highPassFilter.frequency}
+        value={value.bandPassFilter.frequency}
         onChange={event => onChange({
           ...value,
-          highPassFilter: {
-            ...value.highPassFilter,
+          bandPassFilter: {
+            ...value.bandPassFilter,
             frequency: event.target.valueAsNumber,
           },
         })}
@@ -77,11 +77,11 @@ const Body = ({ value, onChange }) => (
         type='number'
         min={0}
         step={0.01}
-        value={value.highPassFilter.Q}
+        value={value.bandPassFilter.Q}
         onChange={event => onChange({
           ...value,
-          highPassFilter: {
-            ...value.highPassFilter,
+          bandPassFilter: {
+            ...value.bandPassFilter,
             Q: event.target.valueAsNumber,
           },
         })}

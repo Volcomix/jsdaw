@@ -9,7 +9,7 @@ class BassDrum {
       frequency: 70,
       gain: 250,
     },
-    highPassFilter: {
+    bandPassFilter: {
       frequency: 100,
       Q: 0.2,
     },
@@ -17,9 +17,7 @@ class BassDrum {
 
   click = {
     duration: 0.01,
-    startFrequency: 3000,
-    endFrequency: 100,
-    Q: 0.2,
+    frequency: 3000,
   }
 
   pitchBend = {
@@ -51,8 +49,8 @@ class BassDrum {
 
     const hpf = this.context.createBiquadFilter()
     hpf.type = 'highpass'
-    hpf.frequency.value = this.body.highPassFilter.frequency
-    hpf.Q.value = this.body.highPassFilter.Q
+    hpf.frequency.value = this.body.bandPassFilter.frequency
+    hpf.Q.value = this.body.bandPassFilter.Q
 
     const click = this.playClick(when)
 
@@ -73,12 +71,12 @@ class BassDrum {
   playClick(when) {
     const lpf = this.context.createBiquadFilter()
     lpf.type = 'lowpass'
-    lpf.frequency.setValueAtTime(this.click.startFrequency, when)
+    lpf.frequency.setValueAtTime(this.click.frequency, when)
     lpf.frequency.linearRampToValueAtTime(
-      this.click.endFrequency,
+      this.body.bandPassFilter.frequency,
       when + this.click.duration
     )
-    lpf.Q.value = this.click.Q
+    lpf.Q.value = this.body.bandPassFilter.Q
 
     return lpf
   }
