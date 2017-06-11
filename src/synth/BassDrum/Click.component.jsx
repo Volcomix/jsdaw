@@ -9,10 +9,7 @@ const Click = ({ value, onChange }) => (
       min={0}
       step={0.01}
       value={value.duration}
-      onChange={event => onChange({
-        ...value,
-        duration: event.target.valueAsNumber,
-      })}
+      onChange={event => onChange({ duration: event.target.valueAsNumber })}
     />
     <label>Frequency</label>
     <input
@@ -20,10 +17,7 @@ const Click = ({ value, onChange }) => (
       min={0}
       step={1}
       value={value.frequency}
-      onChange={event => onChange({
-        ...value,
-        frequency: event.target.valueAsNumber,
-      })}
+      onChange={event => onChange({ frequency: event.target.valueAsNumber })}
     />
   </fieldset>
 )

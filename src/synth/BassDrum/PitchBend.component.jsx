@@ -10,8 +10,7 @@ const PitchBend = ({ value, onChange }) => (
       step={1}
       value={value.startFrequency}
       onChange={event => onChange({
-        ...value,
-        startFrequency: event.target.valueAsNumber,
+        startFrequency: event.target.valueAsNumber
       })}
     />
     <label>End frequency</label>
@@ -21,8 +20,7 @@ const PitchBend = ({ value, onChange }) => (
       step={1}
       value={value.endFrequency}
       onChange={event => onChange({
-        ...value,
-        endFrequency: event.target.valueAsNumber,
+        endFrequency: event.target.valueAsNumber
       })}
     />
     <label>Gain</label>
@@ -32,8 +30,7 @@ const PitchBend = ({ value, onChange }) => (
       step={0.01}
       value={value.gain}
       onChange={event => onChange({
-        ...value,
-        gain: event.target.valueAsNumber,
+        gain: event.target.valueAsNumber
       })}
     />
     <fieldset>
@@ -45,11 +42,10 @@ const PitchBend = ({ value, onChange }) => (
         step={1}
         value={value.lowPassFilter.frequency}
         onChange={event => onChange({
-          ...value,
           lowPassFilter: {
             ...value.lowPassFilter,
             frequency: event.target.valueAsNumber,
-          },
+          }
         })}
       />
       <label>Q</label>
@@ -59,11 +55,10 @@ const PitchBend = ({ value, onChange }) => (
         step={0.01}
         value={value.lowPassFilter.Q}
         onChange={event => onChange({
-          ...value,
           lowPassFilter: {
             ...value.lowPassFilter,
             Q: event.target.valueAsNumber,
-          },
+          }
         })}
       />
     </fieldset>

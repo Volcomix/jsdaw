@@ -61,19 +61,22 @@ class BassDrum extends React.Component {
     this.setState({ gain: this.synth.gain })
   }
 
-  handleBodyChange = body => {
-    this.synth.body = body
-    this.setState({ body })
+  handleBodyChange = nextBody => {
+    const { body } = this.state
+    this.synth.body = { ...body, ...nextBody }
+    this.setState({ body: this.synth.body })
   }
 
-  handleClickChange = click => {
-    this.synth.click = click
-    this.setState({ click })
+  handleClickChange = nextClick => {
+    const { click } = this.state
+    this.synth.click = { ...click, ...nextClick }
+    this.setState({ click: this.synth.click })
   }
 
-  handlePitchBendChange = pitchBend => {
-    this.synth.pitchBend = pitchBend
-    this.setState({ pitchBend })
+  handlePitchBendChange = nextPitchBend => {
+    const { pitchBend } = this.state
+    this.synth.pitchBend = { ...pitchBend, ...nextPitchBend }
+    this.setState({ pitchBend: this.synth.pitchBend })
   }
 }
 
