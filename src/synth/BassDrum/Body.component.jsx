@@ -38,30 +38,20 @@ const Body = ({ value, onValueChange }) => (
     </fieldset>
     <fieldset>
       <legend>Band pass filter</legend>
-      <label>Frequency</label>
-      <input
-        type='number'
-        min={0}
+      <Knob
+        label='Frequency'
         step={1}
         value={value.bandPassFilter.frequency}
-        onChange={event => onValueChange({
-          bandPassFilter: {
-            ...value.bandPassFilter,
-            frequency: event.target.valueAsNumber,
-          }
+        onValueChange={frequency => onValueChange({
+          bandPassFilter: { ...value.bandPassFilter, frequency }
         })}
       />
-      <label>Q</label>
-      <input
-        type='number'
-        min={0}
+      <Knob
+        label='Q'
         step={0.01}
         value={value.bandPassFilter.Q}
-        onChange={event => onValueChange({
-          bandPassFilter: {
-            ...value.bandPassFilter,
-            Q: event.target.valueAsNumber,
-          }
+        onValueChange={Q => onValueChange({
+          bandPassFilter: { ...value.bandPassFilter, Q }
         })}
       />
     </fieldset>
