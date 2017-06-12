@@ -1,65 +1,44 @@
 import React from 'react'
 
 import Card from '../../shared/Card.component'
+import Knob from '../../shared/Knob.component'
 
 const PitchBend = ({ value, onValueChange }) => (
   <Card title='Pitch bend'>
-    <label>Start frequency</label>
-    <input
-      type='number'
-      min={0}
+    <Knob
+      label='Start frequency'
       step={1}
       value={value.startFrequency}
-      onChange={event => onValueChange({
-        startFrequency: event.target.valueAsNumber
-      })}
+      onValueChange={startFrequency => onValueChange({ startFrequency })}
     />
-    <label>End frequency</label>
-    <input
-      type='number'
-      min={0}
+    <Knob
+      label='End frequency'
       step={1}
       value={value.endFrequency}
-      onChange={event => onValueChange({
-        endFrequency: event.target.valueAsNumber
-      })}
+      onValueChange={endFrequency => onValueChange({ endFrequency })}
     />
-    <label>Gain</label>
-    <input
-      type='number'
-      min={0}
+    <Knob
+      label='Gain'
       step={0.01}
       value={value.gain}
-      onChange={event => onValueChange({
-        gain: event.target.valueAsNumber
-      })}
+      onValueChange={gain => onValueChange({ gain })}
     />
     <fieldset>
       <legend>Low pass filter</legend>
-      <label>Frequency</label>
-      <input
-        type='number'
-        min={0}
+      <Knob
+        label='Frequency'
         step={1}
         value={value.lowPassFilter.frequency}
-        onChange={event => onValueChange({
-          lowPassFilter: {
-            ...value.lowPassFilter,
-            frequency: event.target.valueAsNumber,
-          }
+        onValueChange={frequency => onValueChange({
+          lowPassFilter: { ...value.lowPassFilter, frequency }
         })}
       />
-      <label>Q</label>
-      <input
-        type='number'
-        min={0}
+      <Knob
+        label='Q'
         step={0.01}
         value={value.lowPassFilter.Q}
-        onChange={event => onValueChange({
-          lowPassFilter: {
-            ...value.lowPassFilter,
-            Q: event.target.valueAsNumber,
-          }
+        onValueChange={Q => onValueChange({
+          lowPassFilter: { ...value.lowPassFilter, Q }
         })}
       />
     </fieldset>

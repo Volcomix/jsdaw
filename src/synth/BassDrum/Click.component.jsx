@@ -1,28 +1,21 @@
 import React from 'react'
 
 import Card from '../../shared/Card.component'
+import Knob from '../../shared/Knob.component'
 
 const Click = ({ value, onValueChange }) => (
   <Card title='Click'>
-    <label>Duration</label>
-    <input
-      type='number'
-      min={0}
+    <Knob
+      label='Duration'
       step={0.01}
       value={value.duration}
-      onChange={event => onValueChange({
-        duration: event.target.valueAsNumber
-      })}
+      onValueChange={duration => onValueChange({ duration })}
     />
-    <label>Frequency</label>
-    <input
-      type='number'
-      min={0}
+    <Knob
+      label='Frequency'
       step={1}
       value={value.frequency}
-      onChange={event => onValueChange({
-        frequency: event.target.valueAsNumber
-      })}
+      onValueChange={frequency => onValueChange({ frequency })}
     />
   </Card>
 )
