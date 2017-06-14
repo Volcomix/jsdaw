@@ -8,12 +8,14 @@ const Click = ({ value, onValueChange }) => (
     <Knob
       label='Duration'
       step={0.01}
+      max={10}
       value={value.duration}
       onValueChange={duration => onValueChange({ duration })}
     />
     <Knob
       label='Frequency'
       step={1}
+      max={8000}
       value={value.frequency}
       onValueChange={frequency => onValueChange({ frequency })}
     />

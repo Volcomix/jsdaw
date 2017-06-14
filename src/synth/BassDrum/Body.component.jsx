@@ -8,12 +8,14 @@ const Body = ({ value, onValueChange }) => (
     <Knob
       label='Frequency'
       step={1}
+      max={8000}
       value={value.frequency}
       onValueChange={frequency => onValueChange({ frequency })}
     />
     <Knob
       label='Gain'
       step={0.01}
+      max={10}
       value={value.gain}
       onValueChange={gain => onValueChange({ gain })}
     />
@@ -22,6 +24,7 @@ const Body = ({ value, onValueChange }) => (
       <Knob
         label='Frequency'
         step={1}
+        max={8000}
         value={value.modulator.frequency}
         onValueChange={frequency => onValueChange({
           modulator: { ...value.modulator, frequency }
@@ -30,6 +33,7 @@ const Body = ({ value, onValueChange }) => (
       <Knob
         label='Gain'
         step={1}
+        max={10000}
         value={value.modulator.gain}
         onValueChange={gain => onValueChange({
           modulator: { ...value.modulator, gain }
@@ -41,6 +45,7 @@ const Body = ({ value, onValueChange }) => (
       <Knob
         label='Frequency'
         step={1}
+        max={8000}
         value={value.bandPassFilter.frequency}
         onValueChange={frequency => onValueChange({
           bandPassFilter: { ...value.bandPassFilter, frequency }
@@ -49,6 +54,7 @@ const Body = ({ value, onValueChange }) => (
       <Knob
         label='Q'
         step={0.01}
+        max={10}
         value={value.bandPassFilter.Q}
         onValueChange={Q => onValueChange({
           bandPassFilter: { ...value.bandPassFilter, Q }

@@ -9,7 +9,7 @@ class Knob extends React.Component {
       <span>
         <label>{label}</label>
         <input
-          type='number'
+          type='range'
           min={min}
           max={max}
           step={step}
