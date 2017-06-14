@@ -13,6 +13,7 @@ class Knob extends React.Component {
 
   componentDidMount() {
     this.drawBackground()
+    this.draw()
   }
 
   componentDidUpdate() {
@@ -22,13 +23,20 @@ class Knob extends React.Component {
   render() {
     const { label, min, max, step, value, onValueChange } = this.props
     return (
-      <span>
+      <div style={styles.container}>
         <canvas
           width={width}
           height={width}
+          style={styles.background}
           ref={canvas => this.background = canvas}
         />
-      </span>
+        <canvas
+          width={width}
+          height={width}
+          style={styles.foreground}
+          ref={canvas => this.foreground = canvas}
+        />
+      </div>
     )
   }
 
@@ -45,7 +53,45 @@ class Knob extends React.Component {
   }
 
   draw() {
+    const { value, min, max } = this.props
+    const center = width / 2
+    const radius = center - lineWidth / 2
+    let angle
+    if (value >= max) {
+      angle = maxAngle
+    } else if (value < min) {
+      angle = minAngle
+    } else {
+      angle = selectableAngle * (value - min) / (max - min) + minAngle
+    }
+
+    const ctx = this.foreground.getContext('2d')
+    ctx.lineWidth = lineWidth
+    ctx.strokeStyle = keyColor
+    ctx.beginPath()
+    ctx.arc(center, center, radius, minAngle, angle)
+    ctx.stroke()
   }
+}
+
+const styles = {
+  container: {
+    position: 'relative',
+    width,
+    height: width,
+  },
+  background: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    zIndex: 10,
+  },
+  foreground: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    zIndex: 20,
+  },
 }
 
 export default Knob
