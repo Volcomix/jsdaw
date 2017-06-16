@@ -39,6 +39,7 @@ class Knob extends React.Component {
           />
         </div>
         <label style={styles.label}>{label}</label>
+        <span style={styles.tooltip}>{value}</span>
       </span>
     )
   }
@@ -85,13 +86,14 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    position: 'relative',
   },
   knob: {
     position: 'relative',
     width: width,
     height: width,
-    marginLeft: 8,
-    marginRight: 8,
+    marginLeft: 10,
+    marginRight: 10,
   },
   background: {
     position: 'absolute',
@@ -108,6 +110,18 @@ const styles = {
   label: {
     fontSize: 10,
     color: borderColor,
+  },
+  tooltip: {
+    position: 'absolute',
+    top: width + 14,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 6,
+    paddingBottom: 6,
+    zIndex: 30,
+    backgroundColor: 'rgba(97, 97, 97, 0.9)',
+    color: 'white',
+    fontSize: 10,
   },
 }
 

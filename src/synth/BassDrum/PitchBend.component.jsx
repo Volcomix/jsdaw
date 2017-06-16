@@ -6,14 +6,14 @@ import Knob from '../../shared/Knob.component'
 const PitchBend = ({ value, onValueChange }) => (
   <Card title='Pitch bend'>
     <Knob
-      label={<span>Start<br />freq</span>}
+      label='Start freq'
       step={1}
       max={8000}
       value={value.startFrequency}
       onValueChange={startFrequency => onValueChange({ startFrequency })}
     />
     <Knob
-      label={<span>End<br />freq</span>}
+      label='End freq'
       step={1}
       max={8000}
       value={value.endFrequency}
