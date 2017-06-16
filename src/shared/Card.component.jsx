@@ -1,16 +1,15 @@
 import React from 'react'
 
 const Card = ({ title, children }) => (
-  <fieldset style={styles.container}>
+  <fieldset>
     <legend>{title}</legend>
-    {children}
+    <div style={styles.container}>{children}</div>
   </fieldset>
 )
 
 const styles = {
   container: {
     display: 'flex',
-    alignItems: 'center',
   },
 }
 

@@ -28,21 +28,23 @@ class BassDrum extends React.Component {
   render() {
     const { duration, gain, body, click, pitchBend } = this.state
     return (
-      <div style={styles.container}>
-        <Knob
-          label='Duration'
-          step={0.01}
-          max={10}
-          value={duration}
-          onValueChange={value => this.handleKnobChange('duration', value)}
-        />
-        <Knob
-          label='Gain'
-          step={0.01}
-          max={10}
-          value={gain}
-          onValueChange={value => this.handleKnobChange('gain', value)}
-        />
+      <div>
+        <div style={styles.main}>
+          <Knob
+            label='Duration'
+            step={0.01}
+            max={10}
+            value={duration}
+            onValueChange={value => this.handleKnobChange('duration', value)}
+          />
+          <Knob
+            label='Gain'
+            step={0.01}
+            max={10}
+            value={gain}
+            onValueChange={value => this.handleKnobChange('gain', value)}
+          />
+        </div>
         <Body
           value={body}
           onValueChange={value => this.handlePartChange('body', value)}
@@ -72,7 +74,7 @@ class BassDrum extends React.Component {
 }
 
 const styles = {
-  container: {
+  main: {
     display: 'flex',
   },
 }

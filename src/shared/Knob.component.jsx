@@ -102,6 +102,8 @@ const styles = {
     position: 'relative',
     width: width,
     height: width,
+    marginLeft: 8,
+    marginRight: 8,
   },
   background: {
     position: 'absolute',
@@ -118,7 +120,6 @@ const styles = {
   label: {
     fontSize: 10,
     color: borderColor,
-    whiteSpace: 'nowrap',
   },
 }
 

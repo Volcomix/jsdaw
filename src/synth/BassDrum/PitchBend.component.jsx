@@ -6,14 +6,14 @@ import Knob from '../../shared/Knob.component'
 const PitchBend = ({ value, onValueChange }) => (
   <Card title='Pitch bend'>
     <Knob
-      label='Start frequency'
+      label={<span>Start<br />freq</span>}
       step={1}
       max={8000}
       value={value.startFrequency}
       onValueChange={startFrequency => onValueChange({ startFrequency })}
     />
     <Knob
-      label='End frequency'
+      label={<span>End<br />freq</span>}
       step={1}
       max={8000}
       value={value.endFrequency}
@@ -26,10 +26,9 @@ const PitchBend = ({ value, onValueChange }) => (
       value={value.gain}
       onValueChange={gain => onValueChange({ gain })}
     />
-    <fieldset>
-      <legend>Low pass filter</legend>
+    <Card title='Low pass filter'>
       <Knob
-        label='Frequency'
+        label='Freq'
         step={1}
         max={8000}
         value={value.lowPassFilter.frequency}
@@ -46,7 +45,7 @@ const PitchBend = ({ value, onValueChange }) => (
           lowPassFilter: { ...value.lowPassFilter, Q }
         })}
       />
-    </fieldset>
+    </Card>
   </Card>
 )
 

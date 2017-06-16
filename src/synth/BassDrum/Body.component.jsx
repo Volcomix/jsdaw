@@ -6,7 +6,7 @@ import Knob from '../../shared/Knob.component'
 const Body = ({ value, onValueChange }) => (
   <Card title='Body'>
     <Knob
-      label='Frequency'
+      label='Freq'
       step={1}
       max={8000}
       value={value.frequency}
@@ -19,10 +19,9 @@ const Body = ({ value, onValueChange }) => (
       value={value.gain}
       onValueChange={gain => onValueChange({ gain })}
     />
-    <fieldset>
-      <legend>Modulator</legend>
+    <Card title='Modulator'>
       <Knob
-        label='Frequency'
+        label='Freq'
         step={1}
         max={8000}
         value={value.modulator.frequency}
@@ -39,11 +38,10 @@ const Body = ({ value, onValueChange }) => (
           modulator: { ...value.modulator, gain }
         })}
       />
-    </fieldset>
-    <fieldset>
-      <legend>Band pass filter</legend>
+    </Card>
+    <Card title='Band pass filter'>
       <Knob
-        label='Frequency'
+        label='Freq'
         step={1}
         max={8000}
         value={value.bandPassFilter.frequency}
@@ -60,7 +58,7 @@ const Body = ({ value, onValueChange }) => (
           bandPassFilter: { ...value.bandPassFilter, Q }
         })}
       />
-    </fieldset>
+    </Card>
   </Card>
 )
 
