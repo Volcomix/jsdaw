@@ -28,7 +28,7 @@ class BassDrum extends React.Component {
   render() {
     const { duration, gain, body, click, pitchBend } = this.state
     return (
-      <div>
+      <div style={styles.container}>
         <Knob
           label='Duration'
           step={0.01}
@@ -69,6 +69,12 @@ class BassDrum extends React.Component {
     this.synth[key] = { ...value, ...nextValue }
     this.setState({ [key]: this.synth[key] })
   }
+}
+
+const styles = {
+  container: {
+    display: 'flex',
+  },
 }
 
 export default BassDrum

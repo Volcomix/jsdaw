@@ -24,20 +24,23 @@ class Knob extends React.Component {
   render() {
     const { label, min, max, step, value, onValueChange } = this.props
     return (
-      <div style={styles.container}>
-        <canvas
-          width={width}
-          height={width}
-          style={styles.background}
-          ref={canvas => this.background = canvas}
-        />
-        <canvas
-          width={width}
-          height={width}
-          style={styles.foreground}
-          ref={canvas => this.foreground = canvas}
-        />
-      </div>
+      <span style={styles.container}>
+        <div style={styles.knob}>
+          <canvas
+            width={width}
+            height={width}
+            style={styles.background}
+            ref={canvas => this.background = canvas}
+          />
+          <canvas
+            width={width}
+            height={width}
+            style={styles.foreground}
+            ref={canvas => this.foreground = canvas}
+          />
+        </div>
+        <label style={styles.label}>{label}</label>
+      </span>
     )
   }
 
@@ -91,8 +94,13 @@ class Knob extends React.Component {
 
 const styles = {
   container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  knob: {
     position: 'relative',
-    width,
+    width: width,
     height: width,
   },
   background: {
@@ -106,6 +114,11 @@ const styles = {
     left: 0,
     top: 0,
     zIndex: 20,
+  },
+  label: {
+    fontSize: 10,
+    color: borderColor,
+    whiteSpace: 'nowrap',
   },
 }
 
