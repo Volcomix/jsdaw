@@ -11,6 +11,10 @@ const lineWidth = 1.5
 class Knob extends React.Component {
   static defaultProps = { min: 0 }
 
+  state = {
+    isHovered: false,
+  }
+
   componentDidMount() {
     this.drawBackground()
     this.draw()
@@ -23,7 +27,11 @@ class Knob extends React.Component {
   render() {
     const { label, min, max, step, value, onValueChange } = this.props
     return (
-      <span style={styles.container}>
+      <span
+        style={styles.container}
+        onMouseOver={this.handleMouseOver}
+        onMouseOut={this.handleMouseOut}
+      >
         <div style={styles.knob}>
           <canvas
             width={width}
@@ -39,7 +47,11 @@ class Knob extends React.Component {
           />
         </div>
         <label style={styles.label}>{label}</label>
-        <span style={styles.tooltip}>{value}</span>
+        {
+          this.state.isHovered
+            ? <span style={styles.tooltip}>{value}</span>
+            : undefined
+        }
       </span>
     )
   }
@@ -72,12 +84,20 @@ class Knob extends React.Component {
 
     const ctx = this.foreground.getContext('2d')
     ctx.strokeStyle = keyColor
-
     ctx.lineWidth = lineWidth
+    ctx.clearRect(0, 0, width, width)
     ctx.beginPath()
     ctx.arc(center, center, radius, minAngle, angle)
     ctx.lineTo(center, center)
     ctx.stroke()
+  }
+
+  handleMouseOver = () => {
+    this.setState({ isHovered: true })
+  }
+
+  handleMouseOut = () => {
+    this.setState({ isHovered: false })
   }
 }
 
