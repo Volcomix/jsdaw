@@ -7,7 +7,6 @@ const maxAngle = 0.25 * Math.PI
 const selectableAngle = 2 * Math.PI - minAngle + maxAngle
 const width = 24
 const lineWidth = 1.5
-const pointerWidth = 0.035 * Math.PI
 
 class Knob extends React.Component {
   static defaultProps = { min: 0 }
@@ -60,7 +59,6 @@ class Knob extends React.Component {
     const { value, min, max } = this.props
     const center = width / 2
     const radius = center - lineWidth / 2
-    const pointerRadius = radius - width / 6
 
     let angle
     if (value >= max) {
@@ -77,17 +75,7 @@ class Knob extends React.Component {
     ctx.lineWidth = lineWidth
     ctx.beginPath()
     ctx.arc(center, center, radius, minAngle, angle)
-    ctx.stroke()
-
-    ctx.lineWidth = width / 3
-    ctx.beginPath()
-    ctx.arc(
-      center,
-      center,
-      pointerRadius,
-      angle - pointerWidth,
-      angle + pointerWidth
-    )
+    ctx.lineTo(center, center)
     ctx.stroke()
   }
 }
