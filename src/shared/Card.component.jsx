@@ -13,6 +13,7 @@ const styles = {
   container: {
     borderColor,
     borderWidth: 1,
+    borderStyle: 'solid',
   },
   content: {
     display: 'flex',
