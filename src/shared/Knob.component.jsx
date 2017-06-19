@@ -13,6 +13,7 @@ class Knob extends React.Component {
 
   state = {
     isHovered: false,
+    isDragging: false,
   }
 
   componentDidMount() {
@@ -32,7 +33,10 @@ class Knob extends React.Component {
         onMouseOver={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}
       >
-        <div style={styles.knob}>
+        <div
+          style={styles.knob}
+          onMouseDown={this.handleMouseDown}
+        >
           <canvas
             width={width}
             height={width}
@@ -48,7 +52,7 @@ class Knob extends React.Component {
         </div>
         <label style={styles.label}>{label}</label>
         {
-          this.state.isHovered
+          this.state.isHovered || this.state.isDragging
             ? <span style={styles.tooltip}>{value}</span>
             : undefined
         }
@@ -98,6 +102,32 @@ class Knob extends React.Component {
 
   handleMouseOut = () => {
     this.setState({ isHovered: false })
+  }
+
+  handleMouseDown = event => {
+    this.value = this.props.value
+    this.centerY = event.clientY
+    document.addEventListener('mousemove', this.handleMouseMove)
+    document.addEventListener('mouseup', this.handleMouseUp)
+    this.setState({ isDragging: true })
+  }
+
+  handleMouseMove = event => {
+    event.preventDefault()
+    const { min, max, step, onValueChange } = this.props
+    let value = this.value + (this.centerY - event.clientY) * step
+    if (value < min) {
+      value = min
+    } else if (value > max) {
+      value = max
+    }
+    onValueChange(value)
+  }
+
+  handleMouseUp = () => {
+    document.removeEventListener('mousemove', this.handleMouseMove)
+    document.removeEventListener('mouseup', this.handleMouseUp)
+    this.setState({ isDragging: false })
   }
 }
 

@@ -119,6 +119,7 @@ class RadialSlider extends React.Component {
   }
 
   handleMouseMove = event => {
+    event.preventDefault()
     const { min, max, onValueChange } = this.props
     const center = this.width / 2
     const rect = this.canvas.getBoundingClientRect()
@@ -134,8 +135,6 @@ class RadialSlider extends React.Component {
     if (value >= min && value <= max) {
       onValueChange(Math.round(value))
     }
-
-    event.preventDefault()
   }
 
   handleMouseUp = () => {
