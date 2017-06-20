@@ -120,6 +120,8 @@ class Knob extends React.Component {
       value = min
     } else if (value > max) {
       value = max
+    } else {
+      value = +value.toFixed(5)
     }
     onValueChange(value)
   }
