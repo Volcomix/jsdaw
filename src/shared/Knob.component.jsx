@@ -28,14 +28,13 @@ class Knob extends React.Component {
   render() {
     const { label, min, max, step, value, onValueChange } = this.props
     return (
-      <span
-        style={styles.container}
-        onMouseOver={this.handleMouseOver}
-        onMouseOut={this.handleMouseOut}
-      >
+      <span style={styles.container}>
         <div
           style={styles.knob}
+          onMouseOver={this.handleMouseOver}
+          onMouseOut={this.handleMouseOut}
           onMouseDown={this.handleMouseDown}
+          onWheel={this.handleWheel}
         >
           <canvas
             width={width}
@@ -111,26 +110,40 @@ class Knob extends React.Component {
     this.setState({ isDragging: true })
   }
 
-  handleMouseMove = event => {
-    event.preventDefault()
-    const { min, max, step, value, onValueChange } = this.props
-    const sensitivity = event.shiftKey ? 0.1 : 1
-    let nextValue = value + (this.centerY - event.clientY) * step * sensitivity
-    if (nextValue < min) {
-      nextValue = min
-    } else if (nextValue > max) {
-      nextValue = max
-    } else {
-      nextValue = +nextValue.toFixed(5)
-    }
-    this.centerY = event.clientY
-    onValueChange(nextValue)
-  }
-
   handleMouseUp = () => {
     document.removeEventListener('mousemove', this.handleMouseMove)
     document.removeEventListener('mouseup', this.handleMouseUp)
     this.setState({ isDragging: false })
+  }
+
+  handleMouseMove = event => {
+    event.preventDefault()
+    const { step, value, onValueChange } = this.props
+    const sensitivity = event.shiftKey ? 0.1 : 1
+    let nextValue = value + (this.centerY - event.clientY) * step * sensitivity
+    nextValue = this.clamp(nextValue)
+    this.centerY = event.clientY
+    onValueChange(nextValue)
+  }
+
+  handleWheel = event => {
+    event.preventDefault()
+    const { step, value, onValueChange } = this.props
+    const sensitivity = event.shiftKey ? 0.001 : 0.01
+    let nextValue = value - event.deltaY * step * sensitivity
+    nextValue = this.clamp(nextValue)
+    onValueChange(nextValue)
+  }
+
+  clamp = value => {
+    const { min, max } = this.props
+    if (value < min) {
+      return min
+    } else if (value > max) {
+      return max
+    } else {
+      return +value.toFixed(5)
+    }
   }
 }
 
