@@ -32,14 +32,14 @@ class BassDrum extends React.Component {
         <div style={styles.main}>
           <Knob
             label='Duration'
-            step={0.01}
+            step={0.1}
             max={10}
             value={duration}
             onValueChange={value => this.handleKnobChange('duration', value)}
           />
           <Knob
             label='Gain'
-            step={0.01}
+            step={0.1}
             max={10}
             value={gain}
             onValueChange={value => this.handleKnobChange('gain', value)}

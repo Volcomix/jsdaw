@@ -105,7 +105,6 @@ class Knob extends React.Component {
   }
 
   handleMouseDown = event => {
-    this.value = this.props.value
     this.centerY = event.clientY
     document.addEventListener('mousemove', this.handleMouseMove)
     document.addEventListener('mouseup', this.handleMouseUp)
@@ -114,16 +113,18 @@ class Knob extends React.Component {
 
   handleMouseMove = event => {
     event.preventDefault()
-    const { min, max, step, onValueChange } = this.props
-    let value = this.value + (this.centerY - event.clientY) * step
-    if (value < min) {
-      value = min
-    } else if (value > max) {
-      value = max
+    const { min, max, step, value, onValueChange } = this.props
+    const sensitivity = event.shiftKey ? 0.1 : 1
+    let nextValue = value + (this.centerY - event.clientY) * step * sensitivity
+    if (nextValue < min) {
+      nextValue = min
+    } else if (nextValue > max) {
+      nextValue = max
     } else {
-      value = +value.toFixed(5)
+      nextValue = +nextValue.toFixed(5)
     }
-    onValueChange(value)
+    this.centerY = event.clientY
+    onValueChange(nextValue)
   }
 
   handleMouseUp = () => {

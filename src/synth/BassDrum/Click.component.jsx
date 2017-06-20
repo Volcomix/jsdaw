@@ -7,14 +7,14 @@ const Click = ({ value, onValueChange }) => (
   <Card title='Click'>
     <Knob
       label='Duration'
-      step={0.01}
+      step={0.1}
       max={10}
       value={value.duration}
       onValueChange={duration => onValueChange({ duration })}
     />
     <Knob
       label='Freq'
-      step={1}
+      step={10}
       max={8000}
       value={value.frequency}
       onValueChange={frequency => onValueChange({ frequency })}
