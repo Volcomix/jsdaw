@@ -12,7 +12,7 @@ class BeatComponent extends React.Component {
     this.beat = new Beat(props.context, props.synth)
     this.state = {
       bpm: this.beat.bpm,
-      isLooping: false,
+      isLooping: this.beat.isLooping,
       isButtonDown: false,
     }
   }

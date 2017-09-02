@@ -1,10 +1,13 @@
 class Beat {
   bpm = 120
-  isLooping = false
+  isLooping = true
 
   constructor(context, synth) {
     this.context = context
     this.synth = synth
+    if (this.isLooping) {
+      this.start()
+    }
   }
 
   start() {
