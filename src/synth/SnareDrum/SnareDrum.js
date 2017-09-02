@@ -18,15 +18,15 @@ class SnareDrum {
   }
 
   snare = {
-    snappy: 0.02,
+    snappy: 0.005,
     lowPassFilter: {
       frequency: 7040,
-      gain: 0.15,
+      gain: 0.8,
       duration: 0.4,
     },
     highPassFilter: {
       frequency: 523,
-      gain: 0.15,
+      gain: 0.8,
       duration: 0.283,
     },
   }
