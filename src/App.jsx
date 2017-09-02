@@ -4,6 +4,7 @@ import { backgroundColor } from './shared/styles.js'
 import Beat from './core/Beat.component'
 import BassDrum from './synth/BassDrum/BassDrum.component'
 import BassDrumSynth from './synth/BassDrum/BassDrum'
+import SnareDrum from './synth/SnareDrum/SnareDrum.component'
 import SnareDrumSynth from './synth/SnareDrum/SnareDrum'
 
 const context = new AudioContext()
@@ -14,6 +15,7 @@ const App = () => (
   <div style={styles.container}>
     <Beat context={context} synth={snareDrumSynth} />
     <BassDrum synth={bassDrumSynth} />
+    <SnareDrum synth={snareDrumSynth} />
   </div>
 )
 
