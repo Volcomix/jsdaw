@@ -2,6 +2,7 @@ import React from 'react'
 
 import Card from '../../shared/Card.component'
 import Knob from '../../shared/Knob.component'
+import Drum from './Drum.component'
 
 class SnareDrum extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class SnareDrum extends React.Component {
     this.state = {
       duration: this.synth.duration,
       gain: this.synth.gain,
+      drum: this.synth.drum,
     }
   }
 
@@ -20,7 +22,7 @@ class SnareDrum extends React.Component {
   }
 
   render() {
-    const { duration, gain } = this.state
+    const { duration, gain, drum } = this.state
     return (
       <div style={styles.main}>
         <Card title='Main'>
@@ -39,6 +41,10 @@ class SnareDrum extends React.Component {
             onValueChange={value => this.handleKnobChange('gain', value)}
           />
         </Card>
+        <Drum
+          value={drum}
+          onValueChange={value => this.handlePartChange('drum', value)}
+        />
       </div>
     )
   }
@@ -47,6 +53,12 @@ class SnareDrum extends React.Component {
     this.synth[key] = value
     this.setState({ [key]: value })
   }
+
+  handlePartChange = (key, nextValue) => {
+    const value = this.state[key]
+    this.synth[key] = { ...value, ...nextValue }
+    this.setState({ [key]: this.synth[key] })
+  }
 }
 
 const styles = {
@@ -54,6 +66,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     marginLeft: 8,
+    marginBottom: 12,
   },
 }
 
