@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Card from '../../shared/Card.component'
+import KnobSet from '../../shared/KnobSet.component'
 import Knob from '../../shared/Knob.component'
 
 const Body = ({ value, onValueChange }) => (
@@ -19,7 +20,7 @@ const Body = ({ value, onValueChange }) => (
       value={value.gain}
       onValueChange={gain => onValueChange({ gain })}
     />
-    <Card title='Modulator'>
+    <KnobSet title='Modulator'>
       <Knob
         label='Freq'
         step={10}
@@ -38,8 +39,8 @@ const Body = ({ value, onValueChange }) => (
           modulator: { ...value.modulator, gain }
         })}
       />
-    </Card>
-    <Card title='Band pass filter'>
+    </KnobSet>
+    <KnobSet title='Band pass filter'>
       <Knob
         label='Freq'
         step={10}
@@ -58,7 +59,7 @@ const Body = ({ value, onValueChange }) => (
           bandPassFilter: { ...value.bandPassFilter, Q }
         })}
       />
-    </Card>
+    </KnobSet>
   </Card>
 )
 

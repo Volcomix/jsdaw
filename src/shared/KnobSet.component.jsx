@@ -11,12 +11,8 @@ const Card = ({ title, children }) => (
 
 const styles = {
   container: {
-    borderColor,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    marginBottom: 8,
-    marginLeft: 0,
-    marginRight: -1,
+    border: 'none',
+    marginTop: -7,
   },
   content: {
     display: 'flex',
@@ -24,6 +20,8 @@ const styles = {
   title: {
     fontSize: 12,
     color: borderColor,
+    textAlign: 'center',
+    width: '100%',
   },
 }
 

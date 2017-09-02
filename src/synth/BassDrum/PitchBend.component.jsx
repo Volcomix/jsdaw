@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Card from '../../shared/Card.component'
+import KnobSet from '../../shared/KnobSet.component'
 import Knob from '../../shared/Knob.component'
 
 const PitchBend = ({ value, onValueChange }) => (
@@ -26,7 +27,7 @@ const PitchBend = ({ value, onValueChange }) => (
       value={value.gain}
       onValueChange={gain => onValueChange({ gain })}
     />
-    <Card title='Low pass filter'>
+    <KnobSet title='Low pass filter'>
       <Knob
         label='Freq'
         step={10}
@@ -45,7 +46,7 @@ const PitchBend = ({ value, onValueChange }) => (
           lowPassFilter: { ...value.lowPassFilter, Q }
         })}
       />
-    </Card>
+    </KnobSet>
   </Card>
 )
 

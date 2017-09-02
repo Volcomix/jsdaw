@@ -1,11 +1,12 @@
 import React from 'react'
 
 import Card from '../../shared/Card.component'
+import KnobSet from '../../shared/KnobSet.component'
 import Knob from '../../shared/Knob.component'
 
 const Drum = ({ value, onValueChange }) => (
   <Card title='Drum'>
-    <Card title='Oscillator 1'>
+    <KnobSet title='Oscillator 1'>
       <Knob
         label='Freq'
         step={10}
@@ -33,8 +34,8 @@ const Drum = ({ value, onValueChange }) => (
           oscillator1: { ...value.oscillator1, duration }
         })}
       />
-    </Card>
-    <Card title='Oscillator 2'>
+    </KnobSet>
+    <KnobSet title='Oscillator 2'>
       <Knob
         label='Freq'
         step={10}
@@ -62,7 +63,7 @@ const Drum = ({ value, onValueChange }) => (
           oscillator2: { ...value.oscillator2, duration }
         })}
       />
-    </Card>
+    </KnobSet>
   </Card>
 )
 

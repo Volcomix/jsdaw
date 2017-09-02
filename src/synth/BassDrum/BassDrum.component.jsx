@@ -79,7 +79,6 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     marginLeft: 8,
-    marginBottom: 12,
   },
 }
 

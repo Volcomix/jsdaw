@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Card from '../../shared/Card.component'
+import KnobSet from '../../shared/KnobSet.component'
 import Knob from '../../shared/Knob.component'
 
 const Snare = ({ value, onValueChange }) => (
@@ -12,7 +13,7 @@ const Snare = ({ value, onValueChange }) => (
       value={value.snappy}
       onValueChange={snappy => onValueChange({ snappy })}
     />
-    <Card title='Low pass filter'>
+    <KnobSet title='Low pass filter'>
       <Knob
         label='Freq'
         step={10}
@@ -40,8 +41,8 @@ const Snare = ({ value, onValueChange }) => (
           lowPassFilter: { ...value.lowPassFilter, duration }
         })}
       />
-    </Card>
-    <Card title='High pass filter'>
+    </KnobSet>
+    <KnobSet title='High pass filter'>
       <Knob
         label='Freq'
         step={10}
@@ -69,7 +70,7 @@ const Snare = ({ value, onValueChange }) => (
           highPassFilter: { ...value.highPassFilter, duration }
         })}
       />
-    </Card>
+    </KnobSet>
   </Card>
 )
 
