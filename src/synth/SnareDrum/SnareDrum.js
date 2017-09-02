@@ -1,16 +1,10 @@
+import whiteNoise from '../Noise/whiteNoise'
+
 class SnareDrum {
   constructor(context, destination) {
     this.context = context
     this.destination = destination
-
-    const frameCount = context.sampleRate * 2.0
-    this.noiseBuffer = context.createBuffer(2, frameCount, context.sampleRate)
-    for (let channel = 0; channel < 2; channel++) {
-      const nowBuffering = this.noiseBuffer.getChannelData(channel)
-      for (let i = 0; i < frameCount; i++) {
-        nowBuffering[i] = Math.random() * 2 - 1
-      }
-    }
+    this.noiseBuffer = whiteNoise(context, 2)
   }
 
   playSound(when) {

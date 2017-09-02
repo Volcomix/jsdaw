@@ -35,6 +35,27 @@ class BassDrum {
     this.destination = destination
   }
 
+  playSound(when) {
+    const body = this.playBody(when)
+    const pitchBend = this.playPitchBend(when)
+
+    const bodyGain = this.context.createGain()
+    bodyGain.gain.value = this.body.gain
+
+    const pitchBendGain = this.context.createGain()
+    pitchBendGain.gain.value = this.pitchBend.gain
+
+    const vca = this.context.createGain()
+    vca.gain.setValueAtTime(this.gain, when)
+    vca.gain.linearRampToValueAtTime(0, when + this.duration)
+
+    body.connect(bodyGain)
+    pitchBend.connect(pitchBendGain)
+    bodyGain.connect(vca)
+    pitchBendGain.connect(vca)
+    vca.connect(this.destination)
+  }
+
   playBody(when) {
     const modulator = this.context.createOscillator()
     modulator.type = 'sine'
@@ -101,27 +122,6 @@ class BassDrum {
     vco.stop(when + this.duration)
 
     return lpf
-  }
-
-  playSound(when) {
-    const body = this.playBody(when)
-    const pitchBend = this.playPitchBend(when)
-
-    const bodyGain = this.context.createGain()
-    bodyGain.gain.value = this.body.gain
-
-    const pitchBendGain = this.context.createGain()
-    pitchBendGain.gain.value = this.pitchBend.gain
-
-    const vca = this.context.createGain()
-    vca.gain.setValueAtTime(this.gain, when)
-    vca.gain.linearRampToValueAtTime(0, when + this.duration)
-
-    body.connect(bodyGain)
-    pitchBend.connect(pitchBendGain)
-    bodyGain.connect(vca)
-    pitchBendGain.connect(vca)
-    vca.connect(this.destination)
   }
 }
 

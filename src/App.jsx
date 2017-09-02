@@ -4,7 +4,7 @@ import { backgroundColor } from './shared/styles.js'
 import Beat from './core/Beat.component'
 import BassDrum from './synth/BassDrum/BassDrum.component'
 import BassDrumSynth from './synth/BassDrum/BassDrum'
-import SnareDrumSynth from './synth/SnareDrum'
+import SnareDrumSynth from './synth/SnareDrum/SnareDrum'
 
 const context = new AudioContext()
 const bassDrumSynth = new BassDrumSynth(context, context.destination)
