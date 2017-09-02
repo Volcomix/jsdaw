@@ -129,8 +129,9 @@ class Knob extends React.Component {
   handleWheel = event => {
     event.preventDefault()
     const { step, value, onValueChange } = this.props
-    const sensitivity = event.shiftKey ? 0.001 : 0.01
-    let nextValue = value - event.deltaY * step * sensitivity
+    const sensitivity = event.shiftKey ? 0.1 : 1
+    const delta = Math.max(-1, Math.min(1, event.deltaY))
+    let nextValue = value - delta * step * sensitivity
     nextValue = this.clamp(nextValue)
     onValueChange(nextValue)
   }
