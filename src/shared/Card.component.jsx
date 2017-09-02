@@ -14,6 +14,7 @@ const styles = {
     borderColor,
     borderWidth: 1,
     borderStyle: 'solid',
+    marginTop: -7,
   },
   content: {
     display: 'flex',
