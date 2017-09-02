@@ -1,6 +1,36 @@
 import whiteNoise from '../Noise/whiteNoise'
 
 class SnareDrum {
+  duration = 0.5
+  gain = 1
+
+  drum = {
+    oscillator1: {
+      frequency: 330,
+      gain: 1,
+      duration: 0.055,
+    },
+    oscillator2: {
+      frequency: 180,
+      gain: 1,
+      duration: 0.075,
+    },
+  }
+
+  snare = {
+    snappy: 0.02,
+    lowPassFilter: {
+      frequency: 7040,
+      gain: 0.15,
+      duration: 0.4,
+    },
+    highPassFilter: {
+      frequency: 523,
+      gain: 0.15,
+      duration: 0.283,
+    },
+  }
+
   constructor(context, destination) {
     this.context = context
     this.destination = destination
@@ -8,64 +38,86 @@ class SnareDrum {
   }
 
   playSound(when) {
+    const amplifier = this.context.createGain()
+    amplifier.gain.value = this.gain
+
+    this.playDrum(when, amplifier)
+    this.playSnare(when, amplifier)
+
+    amplifier.connect(this.destination)
+  }
+
+  playDrum(when, amplifier) {
     const oscillator1 = this.context.createOscillator()
     oscillator1.type = 'triangle'
-    oscillator1.frequency.value = 330
+    oscillator1.frequency.value = this.drum.oscillator1.frequency
 
     const vca1 = this.context.createGain()
-    vca1.gain.setValueAtTime(1, when)
-    vca1.gain.linearRampToValueAtTime(0, when + 0.055)
+    vca1.gain.setValueAtTime(this.drum.oscillator1.gain, when)
+    vca1.gain.linearRampToValueAtTime(
+      0, when + this.drum.oscillator1.duration
+    )
 
     const oscillator2 = this.context.createOscillator()
     oscillator2.type = 'triangle'
-    oscillator2.frequency.value = 180
+    oscillator2.frequency.value = this.drum.oscillator2.frequency
 
     const vca2 = this.context.createGain()
-    vca2.gain.setValueAtTime(1, when)
-    vca2.gain.linearRampToValueAtTime(0, when + 0.075)
+    vca2.gain.setValueAtTime(this.drum.oscillator2.gain, when)
+    vca2.gain.linearRampToValueAtTime(
+      0, when + this.drum.oscillator2.duration
+    )
 
+    oscillator1.connect(vca1)
+    vca1.connect(amplifier)
+    oscillator2.connect(vca2)
+    vca2.connect(amplifier)
+
+    oscillator1.start(when)
+    oscillator2.start(when)
+
+    oscillator1.stop(when + this.duration)
+    oscillator2.stop(when + this.duration)
+  }
+
+  playSnare(when, amplifier) {
     const noise = this.context.createBufferSource()
     noise.buffer = this.noiseBuffer
 
     const lpf = this.context.createBiquadFilter()
     lpf.type = 'lowpass'
-    lpf.frequency.value = 7040
+    lpf.frequency.value = this.snare.lowPassFilter.frequency
 
-    const vca3 = this.context.createGain()
-    vca3.gain.setValueAtTime(0.15, when)
-    vca3.gain.linearRampToValueAtTime(0, when + 0.4)
+    const vca1 = this.context.createGain()
+    vca1.gain.setValueAtTime(this.snare.lowPassFilter.gain, when)
+    vca1.gain.linearRampToValueAtTime(
+      0, when + this.snare.lowPassFilter.duration
+    )
 
     const hpf = this.context.createBiquadFilter()
     hpf.type = 'highpass'
-    hpf.frequency.value = 523
+    hpf.frequency.value = this.snare.highPassFilter.frequency
 
-    const vca4 = this.context.createGain()
-    vca4.gain.setValueAtTime(0.15, when)
-    vca4.gain.linearRampToValueAtTime(0, when + 0.283)
+    const vca2 = this.context.createGain()
+    vca2.gain.setValueAtTime(this.snare.highPassFilter.gain, when)
+    vca2.gain.linearRampToValueAtTime(
+      0, when + this.snare.highPassFilter.duration
+    )
 
-    const vca5 = this.context.createGain()
-    vca5.gain.setValueAtTime(0, when)
-    vca5.gain.linearRampToValueAtTime(1, when + 0.02)
+    const snappy = this.context.createGain()
+    snappy.gain.setValueAtTime(0, when)
+    snappy.gain.linearRampToValueAtTime(1, when + this.snare.snappy)
 
-    oscillator1.connect(vca1)
-    vca1.connect(this.destination)
-    oscillator2.connect(vca2)
-    vca2.connect(this.destination)
     noise.connect(lpf)
-    lpf.connect(vca3)
+    lpf.connect(vca1)
     lpf.connect(hpf)
-    hpf.connect(vca4)
-    vca3.connect(vca5)
-    vca4.connect(vca5)
-    vca5.connect(this.destination)
+    hpf.connect(vca2)
+    vca1.connect(snappy)
+    vca2.connect(snappy)
+    snappy.connect(amplifier)
 
-    oscillator1.start(when)
-    oscillator2.start(when)
     noise.start(when)
-
-    oscillator1.stop(when + 0.5)
-    oscillator2.stop(when + 0.5)
-    noise.stop(when + 0.5)
+    noise.stop(when + this.duration)
   }
 }
 
