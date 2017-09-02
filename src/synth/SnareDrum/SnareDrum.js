@@ -22,12 +22,12 @@ class SnareDrum {
     lowPassFilter: {
       frequency: 7040,
       gain: 0.8,
-      duration: 0.13,
+      duration: 0.35,
     },
     highPassFilter: {
       frequency: 523,
       gain: 0.8,
-      duration: 0.05,
+      duration: 0.11,
     },
   }
 
