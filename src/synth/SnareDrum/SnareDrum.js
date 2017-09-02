@@ -2,7 +2,7 @@ import whiteNoise from '../Noise/whiteNoise'
 
 class SnareDrum {
   duration = 0.5
-  gain = 1
+  gain = 0.5
 
   drum = {
     oscillator1: {
@@ -22,12 +22,12 @@ class SnareDrum {
     lowPassFilter: {
       frequency: 7040,
       gain: 0.8,
-      duration: 0.4,
+      duration: 0.13,
     },
     highPassFilter: {
       frequency: 523,
       gain: 0.8,
-      duration: 0.283,
+      duration: 0.05,
     },
   }
 
