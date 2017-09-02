@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Card from '../../shared/Card.component'
 import Knob from '../../shared/Knob.component'
 import Body from './Body.component'
 import Click from './Click.component'
@@ -29,20 +30,22 @@ class BassDrum extends React.Component {
     const { duration, gain, body, click, pitchBend } = this.state
     return (
       <div style={styles.main}>
-        <Knob
-          label='Duration'
-          step={0.1}
-          max={10}
-          value={duration}
-          onValueChange={value => this.handleKnobChange('duration', value)}
-        />
-        <Knob
-          label='Gain'
-          step={0.1}
-          max={10}
-          value={gain}
-          onValueChange={value => this.handleKnobChange('gain', value)}
-        />
+        <Card title='Main'>
+          <Knob
+            label='Duration'
+            step={0.1}
+            max={10}
+            value={duration}
+            onValueChange={value => this.handleKnobChange('duration', value)}
+          />
+          <Knob
+            label='Gain'
+            step={0.1}
+            max={10}
+            value={gain}
+            onValueChange={value => this.handleKnobChange('gain', value)}
+          />
+        </Card>
         <Body
           value={body}
           onValueChange={value => this.handlePartChange('body', value)}
@@ -75,6 +78,7 @@ const styles = {
   main: {
     display: 'flex',
     alignItems: 'center',
+    marginLeft: 8,
   },
 }
 
