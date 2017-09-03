@@ -2,7 +2,7 @@ import whiteNoise from '../Noise/whiteNoise'
 
 class SnareDrum {
   duration = 0.5
-  gain = 0.5
+  gain = 1
 
   drum = {
     oscillator1: {
