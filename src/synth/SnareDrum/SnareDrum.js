@@ -8,26 +8,26 @@ class SnareDrum {
     oscillator1: {
       frequency: 330,
       gain: 1,
-      duration: 0.07,
+      duration: 0.033,
     },
     oscillator2: {
       frequency: 180,
       gain: 1,
-      duration: 0.1,
+      duration: 0.055,
     },
   }
 
   snare = {
-    snappy: 0.005,
+    snappy: 0.02,
     lowPassFilter: {
       frequency: 7040,
-      gain: 0.2,
+      gain: 0.5,
       duration: 0.1,
     },
     highPassFilter: {
       frequency: 523,
-      gain: 0.5,
-      duration: 0.05,
+      gain: 0.8,
+      duration: 0.06,
     },
   }
 
