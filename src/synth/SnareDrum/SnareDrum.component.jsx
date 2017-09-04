@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { keyColor, borderColor } from '../../shared/styles'
 import Card from '../../shared/Card.component'
 import Knob from '../../shared/Knob.component'
 import Drum from './Drum.component'
@@ -25,8 +26,17 @@ class SnareDrum extends React.Component {
 
   render() {
     const { duration, gain, drum, snare } = this.state
+    const { synth, selectedSynth } = this.props
     return (
       <div style={styles.main}>
+        <div
+          style={{
+            ...styles.handle,
+            ...selectedSynth === synth ? styles.selected : styles.deselected,
+          }}
+          onClick={this.handleSelect}
+        >
+        </div>
         <Card title='Main'>
           <Knob
             label='Duration'
@@ -55,6 +65,10 @@ class SnareDrum extends React.Component {
     )
   }
 
+  handleSelect = () => {
+    this.props.onSelect(this.synth)
+  }
+
   handleKnobChange = (key, value) => {
     this.synth[key] = value
     this.setState({ [key]: value })
@@ -72,6 +86,17 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     marginLeft: 8,
+    marginBottom: 8,
+  },
+  handle: {
+    alignSelf: 'stretch',
+    width: 12,
+  },
+  selected: {
+    backgroundColor: keyColor,
+  },
+  deselected: {
+    backgroundColor: borderColor,
   },
 }
 

@@ -11,13 +11,32 @@ const context = new AudioContext()
 const bassDrumSynth = new BassDrumSynth(context, context.destination)
 const snareDrumSynth = new SnareDrumSynth(context, context.destination)
 
-const App = () => (
-  <div style={styles.container}>
-    <Beat context={context} synth={snareDrumSynth} />
-    <BassDrum synth={bassDrumSynth} />
-    <SnareDrum synth={snareDrumSynth} />
-  </div>
-)
+class App extends React.Component {
+  state = { selectedSynth: snareDrumSynth }
+
+  render() {
+    const { selectedSynth } = this.state
+    return (
+      <div style={styles.container}>
+        <Beat context={context} synth={selectedSynth} />
+        <BassDrum
+          synth={bassDrumSynth}
+          selectedSynth={selectedSynth}
+          onSelect={this.handleSynthSelect}
+        />
+        <SnareDrum
+          synth={snareDrumSynth}
+          selectedSynth={selectedSynth}
+          onSelect={this.handleSynthSelect}
+        />
+      </div>
+    )
+  }
+
+  handleSynthSelect = selectedSynth => {
+    this.setState({ selectedSynth })
+  }
+}
 
 const styles = {
   container: {
