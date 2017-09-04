@@ -91,7 +91,7 @@ class BassDrum extends React.Component {
 const styles = {
   main: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'stretch',
     marginLeft: 8,
     marginBottom: 8,
   },

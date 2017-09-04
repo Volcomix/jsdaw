@@ -12,7 +12,7 @@ const Card = ({ title, children }) => (
 const styles = {
   container: {
     border: 'none',
-    marginTop: -7,
+    marginTop: -9,
   },
   content: {
     display: 'flex',
