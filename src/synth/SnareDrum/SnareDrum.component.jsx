@@ -28,7 +28,7 @@ class SnareDrum extends React.Component {
     const { duration, gain, drum, snare } = this.state
     const { synth, selectedSynth } = this.props
     return (
-      <div style={styles.main}>
+      <div style={styles.container}>
         <div
           style={{
             ...styles.handle,
@@ -82,11 +82,12 @@ class SnareDrum extends React.Component {
 }
 
 const styles = {
-  main: {
+  container: {
     display: 'flex',
     alignItems: 'stretch',
     marginLeft: 8,
     marginBottom: 8,
+    paddingBottom: 4,
   },
   handle: {
     alignSelf: 'stretch',

@@ -3,16 +3,19 @@ import React from 'react'
 import { borderColor } from './styles'
 
 const Card = ({ title, children }) => (
-  <fieldset style={styles.container}>
-    <legend style={styles.title}>{title}</legend>
+  <div style={styles.container}>
+    <span style={styles.title}>{title}</span>
     <div style={styles.content}>{children}</div>
-  </fieldset>
+  </div>
 )
 
 const styles = {
   container: {
-    border: 'none',
-    marginTop: -9,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginLeft: 8,
+    marginRight: 8,
   },
   content: {
     display: 'flex',
@@ -20,8 +23,7 @@ const styles = {
   title: {
     fontSize: 12,
     color: borderColor,
-    textAlign: 'center',
-    width: '100%',
+    marginBottom: 4,
   },
 }
 

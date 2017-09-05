@@ -31,7 +31,7 @@ class BassDrum extends React.Component {
     const { duration, gain, body, click, pitchBend } = this.state
     const { synth, selectedSynth } = this.props
     return (
-      <div style={styles.main}>
+      <div style={styles.container}>
         <div
           style={{
             ...styles.handle,
@@ -89,11 +89,13 @@ class BassDrum extends React.Component {
 }
 
 const styles = {
-  main: {
+  container: {
     display: 'flex',
     alignItems: 'stretch',
     marginLeft: 8,
     marginBottom: 8,
+    paddingTop: 8,
+    paddingBottom: 8,
   },
   handle: {
     alignSelf: 'stretch',

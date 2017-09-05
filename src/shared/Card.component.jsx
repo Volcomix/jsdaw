@@ -20,12 +20,12 @@ const styles = {
   content: {
     display: 'flex',
     flex: 1,
+    alignItems: 'flex-end',
   },
   title: {
     fontSize: 12,
     color: borderColor,
     marginLeft: 8,
-    marginBottom: 8,
   },
 }
 
