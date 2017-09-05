@@ -40,22 +40,28 @@ class BassDrum extends React.Component {
           onClick={this.handleSelect}
         >
         </div>
-        <Card title='Main'>
-          <Knob
-            label='Duration'
-            step={0.1}
-            max={10}
-            value={duration}
-            onValueChange={value => this.handleKnobChange('duration', value)}
-          />
-          <Knob
-            label='Gain'
-            step={0.1}
-            max={10}
-            value={gain}
-            onValueChange={value => this.handleKnobChange('gain', value)}
-          />
-        </Card>
+        <div style={styles.main}>
+          <span style={{
+            ...styles.title,
+            ...selectedSynth === synth ? styles.selectedTitle : styles.deselectedTitle,
+          }}>Bass drum</span>
+          <div style={styles.mainContent}>
+            <Knob
+              label='Duration'
+              step={0.1}
+              max={10}
+              value={duration}
+              onValueChange={value => this.handleKnobChange('duration', value)}
+            />
+            <Knob
+              label='Gain'
+              step={0.1}
+              max={10}
+              value={gain}
+              onValueChange={value => this.handleKnobChange('gain', value)}
+            />
+          </div>
+        </div>
         <Body
           value={body}
           onValueChange={value => this.handlePartChange('body', value)}
@@ -96,6 +102,27 @@ const styles = {
     marginBottom: 8,
     paddingTop: 8,
     paddingBottom: 8,
+  },
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  title: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginLeft: 8,
+  },
+  selectedTitle: {
+    color: keyColor,
+  },
+  deselectedTitle: {
+    color: borderColor,
+  },
+  mainContent: {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'flex-end',
+    marginLeft: 32,
   },
   handle: {
     alignSelf: 'stretch',
