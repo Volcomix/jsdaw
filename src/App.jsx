@@ -40,7 +40,8 @@ class App extends React.Component {
 
 const styles = {
   container: {
-    backgroundColor,
+    display: 'flex',
+    flexDirection: 'column',
   },
 }
 

@@ -1,15 +1,21 @@
-html, body {
-  font-family: 'Roboto', 'Helvetica', sans-serif;
-  margin: 0;
-  padding: 0;
+html,
+body {
+    font-family: 'Roboto', 'Helvetica', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+#root {
+    display: flex;
 }
 
 ::-moz-selection {
-  color: white;
-  background: #007AFF;
+    color: white;
+    background: #007AFF;
 }
 
 ::selection {
-  color: white;
-  background: #007AFF;
+    color: white;
+    background: #007AFF;
 }

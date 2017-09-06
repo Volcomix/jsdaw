@@ -97,12 +97,14 @@ const styles = {
     display: 'flex',
     alignItems: 'stretch',
     marginLeft: 8,
-    marginBottom: 8,
-    paddingBottom: 4,
+    marginBottom: 4,
   },
   main: {
     display: 'flex',
     flexDirection: 'column',
+    backgroundColor: 'white',
+    paddingTop: 4,
+    paddingBottom: 4,
   },
   title: {
     fontSize: 16,

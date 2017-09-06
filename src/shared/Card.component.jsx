@@ -13,9 +13,10 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    borderLeftColor: borderColor,
-    borderLeftWidth: 1,
-    borderLeftStyle: 'solid',
+    marginLeft: 4,
+    paddingTop: 4,
+    paddingBottom: 4,
+    backgroundColor: 'white',
   },
   content: {
     display: 'flex',

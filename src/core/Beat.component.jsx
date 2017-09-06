@@ -99,6 +99,7 @@ const styles = {
     borderRadius: '50%',
     padding: 4,
     transition: 'box-shadow 150ms',
+    backgroundColor: 'white',
   },
   deactivatedIcon: {
     color: borderColor,
