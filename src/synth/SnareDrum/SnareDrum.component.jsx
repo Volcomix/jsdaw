@@ -38,10 +38,15 @@ class SnareDrum extends React.Component {
         >
         </div>
         <div style={styles.main}>
-          <span style={{
-            ...styles.title,
-            ...selectedSynth === synth ? styles.selectedTitle : styles.deselectedTitle,
-          }}>Snare drum</span>
+          <span
+            style={{
+              ...styles.title,
+              ...selectedSynth === synth ? styles.selectedTitle : styles.deselectedTitle,
+            }}
+            onClick={this.handleSelect}
+          >
+            Snare drum
+          </span>
           <div style={styles.mainContent}>
             <Knob
               label='Duration'
@@ -100,9 +105,9 @@ const styles = {
     flexDirection: 'column',
   },
   title: {
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 16,
     marginLeft: 8,
+    cursor: 'pointer',
   },
   selectedTitle: {
     color: keyColor,
@@ -118,7 +123,9 @@ const styles = {
   },
   handle: {
     alignSelf: 'stretch',
-    width: 12,
+    width: 4,
+    borderLeft: '4px solid white',
+    borderRight: '4px solid white',
   },
   selected: {
     backgroundColor: keyColor,
