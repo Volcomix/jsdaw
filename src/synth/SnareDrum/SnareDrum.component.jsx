@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { keyColor, borderColor } from '../../shared/styles'
+import { keyColor, borderColor, backgroundColor } from '../../shared/styles'
 import Card from '../../shared/Card.component'
 import Knob from '../../shared/Knob.component'
 import Drum from './Drum.component'
@@ -126,7 +126,7 @@ const styles = {
   handle: {
     alignSelf: 'stretch',
     width: 4,
-    borderLeft: '4px solid white',
+    borderLeft: `4px solid ${backgroundColor}`,
     borderRight: '4px solid white',
   },
   selected: {
