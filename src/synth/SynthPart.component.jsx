@@ -33,10 +33,12 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignSelf: 'stretch',
+    borderLeft: `1px solid ${borderColor}`,
   },
   title: {
     fontSize: 12,
     color: borderColor,
+    marginTop: 4,
     marginLeft: 8,
   },
   content: {

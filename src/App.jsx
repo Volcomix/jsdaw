@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { backgroundColor } from './shared/styles.js'
 import Beat from './core/Beat.component'
 import Synth from './synth/Synth.component'
 import BassDrum from './synth/BassDrum/BassDrum.component'
 import BassDrumSynth from './synth/BassDrum/BassDrum'
 import SnareDrum from './synth/SnareDrum/SnareDrum.component'
 import SnareDrumSynth from './synth/SnareDrum/SnareDrum'
+import { backgroundColor } from './shared/styles.js'
 
 const context = new AudioContext()
 const bassDrumSynth = new BassDrumSynth(context, context.destination)

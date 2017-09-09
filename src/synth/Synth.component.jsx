@@ -6,6 +6,7 @@ import { borderColor } from '../shared/styles'
 
 const Synth = ({ name, controls }) => (
   <div style={styles.container}>
+    <div style={styles.handle}></div>
     <span style={styles.title}>{name}</span>
     {Object.keys(controls).map(key => {
       const control = controls[key]
@@ -31,13 +32,26 @@ const styles = {
     display: 'flex',
     position: 'relative',
     alignItems: 'flex-end',
+    backgroundColor: 'white',
+    boxShadow: '0 3px 5px rgba(0, 0, 0, 0.3)',
+    marginLeft: 8,
+    marginBottom: 8,
+  },
+  handle: {
+    alignSelf: 'stretch',
+    width: 4,
+    backgroundColor: borderColor,
+    marginRight: 32,
+    borderRight: '8px solid white',
+    cursor: 'pointer',
   },
   title: {
     position: 'absolute',
-    top: 0,
+    top: 4,
+    left: 12,
     fontSize: 16,
-    cursor: 'pointer',
     color: borderColor,
+    cursor: 'pointer',
   },
 }
 

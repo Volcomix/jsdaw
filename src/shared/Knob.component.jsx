@@ -155,6 +155,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
+    marginBottom: 4,
   },
   knob: {
     position: 'relative',

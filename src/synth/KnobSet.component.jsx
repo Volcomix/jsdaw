@@ -28,6 +28,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginLeft: 8,
+    marginRight: 8,
   },
   title: {
     fontSize: 12,
