@@ -2,12 +2,27 @@ import React from 'react'
 
 import SynthPart from './SynthPart.component'
 import Knob from '../shared/Knob.component'
-import { borderColor } from '../shared/styles'
+import { keyColor, borderColor } from '../shared/styles'
 
-const Synth = ({ name, controls }) => (
+const Synth = ({ name, controls, isSelected, onSelect }) => (
   <div style={styles.container}>
-    <div style={styles.handle}></div>
-    <span style={styles.title}>{name}</span>
+    <div
+      style={{
+        ...styles.handle,
+        ...isSelected ? styles.selectedHandle : styles.deselectedHandle,
+      }}
+      onClick={onSelect}
+    >
+    </div>
+    <span
+      style={{
+        ...styles.title,
+        ...isSelected ? styles.selectedTitle : styles.deselectedTitle,
+      }}
+      onClick={onSelect}
+    >
+      {name}
+    </span>
     {Object.keys(controls).map(key => {
       const control = controls[key]
       if (control.value === undefined) {
@@ -40,18 +55,28 @@ const styles = {
   handle: {
     alignSelf: 'stretch',
     width: 4,
-    backgroundColor: borderColor,
     marginRight: 32,
     borderRight: '8px solid white',
     cursor: 'pointer',
+  },
+  selectedHandle: {
+    backgroundColor: keyColor,
+  },
+  deselectedHandle: {
+    backgroundColor: borderColor,
   },
   title: {
     position: 'absolute',
     top: 4,
     left: 12,
     fontSize: 16,
-    color: borderColor,
     cursor: 'pointer',
+  },
+  selectedTitle: {
+    color: keyColor,
+  },
+  deselectedTitle: {
+    color: borderColor,
   },
 }
 

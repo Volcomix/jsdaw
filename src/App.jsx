@@ -20,7 +20,11 @@ class App extends React.Component {
     return (
       <div style={styles.container}>
         <Beat context={context} synth={selectedSynth} />
-        <Synth name='Bass drum' controls={bassDrumSynth.controls} />
+        <Synth
+          name='Bass drum'
+          controls={bassDrumSynth.controls}
+          isSelected={selectedSynth === bassDrumSynth}
+        />
         <SnareDrum
           synth={snareDrumSynth}
           selectedSynth={selectedSynth}
