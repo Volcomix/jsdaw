@@ -9,34 +9,53 @@ import SnareDrumSynth from './synth/SnareDrum/SnareDrum'
 import { backgroundColor } from './shared/styles.js'
 
 const context = new AudioContext()
-const bassDrumSynth = new BassDrumSynth(context, context.destination)
-const snareDrumSynth = new SnareDrumSynth(context, context.destination)
+const synths = [
+  new BassDrumSynth(context, context.destination),
+  new SnareDrumSynth(context, context.destination),
+]
 
 class App extends React.Component {
-  state = { selectedSynth: snareDrumSynth }
+  state = {
+    selected: 0,
+    controls: synths.map(synth => synth.controls),
+  }
 
   render() {
-    const { selectedSynth } = this.state
+    const { selected, controls } = this.state
     return (
       <div style={styles.container}>
-        <Beat context={context} synth={selectedSynth} />
+        <Beat context={context} synth={synths[selected]} />
         <Synth
           name='Bass drum'
-          controls={bassDrumSynth.controls}
-          isSelected={selectedSynth === bassDrumSynth}
-          onSelect={() => this.handleSynthSelect(bassDrumSynth)}
+          controls={controls[0]}
+          onControlsChange={controls => this.handleControlsChange(0, controls)}
+          isSelected={selected === 0}
+          onSelect={() => this.handleSynthSelect(0)}
         />
         <SnareDrum
-          synth={snareDrumSynth}
-          selectedSynth={selectedSynth}
-          onSelect={this.handleSynthSelect}
+          synth={synths[1]}
+          selectedSynth={synths[selected]}
+          onSelect={() => this.handleSynthSelect(1)}
         />
       </div>
     )
   }
 
-  handleSynthSelect = selectedSynth => {
-    this.setState({ selectedSynth })
+  handleControlsChange = (synth, controls) => {
+    synths[synth].controls = controls
+    this.setState({
+      controls: this.state.controls.map((oldControls, index) => {
+        if (index === synth) {
+          return controls
+        } else {
+          return oldControls
+        }
+      })
+    })
+  }
+
+  handleSynthSelect = selected => {
+    this.setState({ selected })
   }
 }
 

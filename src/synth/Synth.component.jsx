@@ -4,7 +4,7 @@ import SynthPart from './SynthPart.component'
 import Knob from '../shared/Knob.component'
 import { keyColor, borderColor } from '../shared/styles'
 
-const Synth = ({ name, controls, isSelected, onSelect }) => (
+const Synth = ({ name, controls, onControlsChange, isSelected, onSelect }) => (
   <div style={styles.container}>
     <div
       style={{
@@ -26,7 +26,17 @@ const Synth = ({ name, controls, isSelected, onSelect }) => (
     {Object.keys(controls).map(key => {
       const control = controls[key]
       if (control.value === undefined) {
-        return <SynthPart key={key} name={toName(key)} controls={control} />
+        return (
+          <SynthPart
+            key={key}
+            name={toName(key)}
+            controls={control}
+            onControlsChange={control => onControlsChange({
+              ...controls,
+              [key]: control
+            })}
+          />
+        )
       } else {
         return (
           <Knob
@@ -35,6 +45,10 @@ const Synth = ({ name, controls, isSelected, onSelect }) => (
             step={control.step}
             max={control.max}
             value={control.value}
+            onValueChange={value => onControlsChange({
+              ...controls,
+              [key]: { ...control, value }
+            })}
           />
         )
       }
