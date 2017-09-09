@@ -1,4 +1,4 @@
-import controls from '../controls'
+import controls from './controls'
 
 class BassDrum {
   controls = {

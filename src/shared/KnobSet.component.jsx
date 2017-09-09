@@ -1,11 +1,30 @@
 import React from 'react'
 
-import { borderColor } from './styles'
+import Knob from './Knob.component'
+import { borderColor } from '../shared/styles'
+import { toName } from '../synth/Synth.component'
 
-const Card = ({ title, children }) => (
+const KnobSet = ({ name, controls, onControlsChange }) => (
   <div style={styles.container}>
-    <span style={styles.title}>{title}</span>
-    <div style={styles.content}>{children}</div>
+    <span style={styles.title}>{name}</span>
+    <div style={styles.content}>
+      {Object.keys(controls).map(key => {
+        const control = controls[key]
+        return (
+          <Knob
+            key={key}
+            label={toName(key)}
+            step={control.step}
+            max={control.max}
+            value={control.value}
+            onValueChange={value => onControlsChange({
+              ...controls,
+              [key]: { ...control, value }
+            })}
+          />
+        )
+      })}
+    </div>
   </div>
 )
 
@@ -17,14 +36,14 @@ const styles = {
     marginLeft: 8,
     marginRight: 8,
   },
-  content: {
-    display: 'flex',
-  },
   title: {
     fontSize: 12,
     color: borderColor,
     marginBottom: 4,
   },
+  content: {
+    display: 'flex',
+  },
 }
 
-export default Card
+export default KnobSet

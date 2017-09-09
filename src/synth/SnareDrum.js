@@ -1,5 +1,5 @@
-import controls from '../controls'
-import whiteNoise from '../Noise/whiteNoise'
+import controls from './controls'
+import whiteNoise from './whiteNoise'
 
 class SnareDrum {
   controls = {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import KnobSet from './KnobSet.component'
+import KnobSet from '../shared/KnobSet.component'
 import Knob from '../shared/Knob.component'
 import { borderColor } from '../shared/styles'
 import { toName } from './Synth.component'

@@ -2,10 +2,8 @@ import React from 'react'
 
 import Beat from './core/Beat.component'
 import Synth from './synth/Synth.component'
-import BassDrum from './synth/BassDrum/BassDrum.component'
-import BassDrumSynth from './synth/BassDrum/BassDrum'
-import SnareDrum from './synth/SnareDrum/SnareDrum.component'
-import SnareDrumSynth from './synth/SnareDrum/SnareDrum'
+import BassDrumSynth from './synth/BassDrum'
+import SnareDrumSynth from './synth/SnareDrum'
 import { backgroundColor } from './shared/styles.js'
 import { toName } from './synth/Synth.component'
 
