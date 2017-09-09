@@ -2,6 +2,7 @@ import React from 'react'
 
 import Knob from '../shared/Knob.component'
 import { borderColor } from '../shared/styles'
+import { toName } from './Synth.component'
 
 const KnobSet = ({ name, controls }) => (
   <div style={styles.container}>
@@ -12,7 +13,7 @@ const KnobSet = ({ name, controls }) => (
         return (
           <Knob
             key={key}
-            label={key}
+            label={toName(key)}
             step={control.step}
             max={control.max}
             value={control.value}

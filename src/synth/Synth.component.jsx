@@ -11,12 +11,12 @@ const Synth = ({ name, controls }) => (
     {Object.keys(controls).map(key => {
       const control = controls[key]
       if (control.value === undefined) {
-        return <SynthPart key={key} name={key} controls={control} />
+        return <SynthPart key={key} name={toName(key)} controls={control} />
       } else {
         return (
           <Knob
             key={key}
-            label={key}
+            label={toName(key)}
             step={control.step}
             max={control.max}
             value={control.value}
@@ -53,6 +53,12 @@ const styles = {
     color: borderColor,
     cursor: 'pointer',
   },
+}
+
+export function toName(controlKey) {
+  return controlKey.replace(/^[a-z]|[A-Z]/g, (match, offset) =>
+    offset === 0 ? match.toUpperCase() : " " + match.toLowerCase()
+  )
 }
 
 export default Synth

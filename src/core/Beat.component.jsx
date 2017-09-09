@@ -100,6 +100,7 @@ const styles = {
     padding: 4,
     transition: 'box-shadow 150ms',
     backgroundColor: 'white',
+    cursor: 'pointer',
   },
   deactivatedIcon: {
     color: borderColor,

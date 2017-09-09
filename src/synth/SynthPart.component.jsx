@@ -3,6 +3,7 @@ import React from 'react'
 import KnobSet from './KnobSet.component'
 import Knob from '../shared/Knob.component'
 import { borderColor } from '../shared/styles'
+import { toName } from './Synth.component'
 
 const SynthPart = ({ name, controls }) => (
   <div style={styles.container}>
@@ -11,12 +12,12 @@ const SynthPart = ({ name, controls }) => (
       {Object.keys(controls).map(key => {
         const control = controls[key]
         if (control.value === undefined) {
-          return <KnobSet key={key} name={key} controls={control} />
+          return <KnobSet key={key} name={toName(key)} controls={control} />
         } else {
           return (
             <Knob
               key={key}
-              label={key}
+              label={toName(key)}
               step={control.step}
               max={control.max}
               value={control.value}
