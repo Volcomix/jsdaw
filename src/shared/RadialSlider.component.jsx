@@ -37,6 +37,7 @@ class RadialSlider extends React.Component {
           type='text'
           value={value}
           onChange={this.handleInputChange}
+          onWheel={this.handleWheel}
           style={{
             width: width - 4 * (knobRadius + styles.knob.shadowBlur),
             ...styles.input,
@@ -44,6 +45,7 @@ class RadialSlider extends React.Component {
         />
         <label
           htmlFor='input'
+          onWheel={this.handleWheel}
           style={{
             bottom: knobRadius + styles.knob.shadowBlur,
             ...styles.label,
@@ -140,6 +142,13 @@ class RadialSlider extends React.Component {
   handleMouseUp = () => {
     document.removeEventListener('mousemove', this.handleMouseMove)
     document.removeEventListener('mouseup', this.handleMouseUp)
+  }
+
+  handleWheel = event => {
+    event.preventDefault()
+    const { value, onValueChange } = this.props
+    const delta = Math.max(-1, Math.min(1, event.deltaY))
+    onValueChange(value - delta)
   }
 }
 
