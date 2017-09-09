@@ -32,9 +32,11 @@ class App extends React.Component {
           isSelected={selected === 0}
           onSelect={() => this.handleSynthSelect(0)}
         />
-        <SnareDrum
-          synth={synths[1]}
-          selectedSynth={synths[selected]}
+        <Synth
+          name='Snare drum'
+          controls={controls[1]}
+          onControlsChange={controls => this.handleControlsChange(1, controls)}
+          isSelected={selected === 1}
           onSelect={() => this.handleSynthSelect(1)}
         />
       </div>

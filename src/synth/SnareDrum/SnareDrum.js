@@ -1,33 +1,34 @@
+import controls from '../controls'
 import whiteNoise from '../Noise/whiteNoise'
 
 class SnareDrum {
-  duration = 0.5
-  gain = 1
-
-  drum = {
-    oscillator1: {
-      frequency: 330,
-      gain: 1,
-      duration: 0.033,
+  controls = {
+    gain: { ...controls.gain, value: 1 },
+    duration: { ...controls.duration, value: 0.5 },
+    drum: {
+      oscillator1: {
+        gain: { ...controls.gain, value: 1 },
+        duration: { ...controls.duration, value: 0.033 },
+        freq: { ...controls.frequency, value: 330 },
+      },
+      oscillator2: {
+        gain: { ...controls.gain, value: 1 },
+        duration: { ...controls.duration, value: 0.055 },
+        freq: { ...controls.frequency, value: 180 },
+      },
     },
-    oscillator2: {
-      frequency: 180,
-      gain: 1,
-      duration: 0.055,
-    },
-  }
-
-  snare = {
-    snappy: 0.02,
-    lowPassFilter: {
-      frequency: 7040,
-      gain: 0.5,
-      duration: 0.1,
-    },
-    highPassFilter: {
-      frequency: 523,
-      gain: 0.8,
-      duration: 0.06,
+    snare: {
+      snappy: { ...controls.duration, value: 0.02 },
+      lowPassFilter: {
+        gain: { ...controls.gain, value: 0.5 },
+        duration: { ...controls.duration, value: 0.1 },
+        freq: { ...controls.frequency, value: 7040 },
+      },
+      highPassFilter: {
+        gain: { ...controls.gain, value: 0.8 },
+        duration: { ...controls.duration, value: 0.06 },
+        freq: { ...controls.frequency, value: 523 },
+      },
     },
   }
 
@@ -39,7 +40,7 @@ class SnareDrum {
 
   playSound(when) {
     const amplifier = this.context.createGain()
-    amplifier.gain.value = this.gain
+    amplifier.gain.value = this.controls.gain.value
 
     this.playDrum(when, amplifier)
     this.playSnare(when, amplifier)
@@ -50,22 +51,22 @@ class SnareDrum {
   playDrum(when, amplifier) {
     const oscillator1 = this.context.createOscillator()
     oscillator1.type = 'triangle'
-    oscillator1.frequency.value = this.drum.oscillator1.frequency
+    oscillator1.frequency.value = this.controls.drum.oscillator1.freq.value
 
     const vca1 = this.context.createGain()
-    vca1.gain.setValueAtTime(this.drum.oscillator1.gain, when)
+    vca1.gain.setValueAtTime(this.controls.drum.oscillator1.gain.value, when)
     vca1.gain.linearRampToValueAtTime(
-      0, when + this.drum.oscillator1.duration
+      0, when + this.controls.drum.oscillator1.duration.value
     )
 
     const oscillator2 = this.context.createOscillator()
     oscillator2.type = 'triangle'
-    oscillator2.frequency.value = this.drum.oscillator2.frequency
+    oscillator2.frequency.value = this.controls.drum.oscillator2.freq.value
 
     const vca2 = this.context.createGain()
-    vca2.gain.setValueAtTime(this.drum.oscillator2.gain, when)
+    vca2.gain.setValueAtTime(this.controls.drum.oscillator2.gain.value, when)
     vca2.gain.linearRampToValueAtTime(
-      0, when + this.drum.oscillator2.duration
+      0, when + this.controls.drum.oscillator2.duration.value
     )
 
     oscillator1.connect(vca1)
@@ -76,8 +77,8 @@ class SnareDrum {
     oscillator1.start(when)
     oscillator2.start(when)
 
-    oscillator1.stop(when + this.duration)
-    oscillator2.stop(when + this.duration)
+    oscillator1.stop(when + this.controls.duration.value)
+    oscillator2.stop(when + this.controls.duration.value)
   }
 
   playSnare(when, amplifier) {
@@ -86,27 +87,27 @@ class SnareDrum {
 
     const lpf = this.context.createBiquadFilter()
     lpf.type = 'lowpass'
-    lpf.frequency.value = this.snare.lowPassFilter.frequency
+    lpf.frequency.value = this.controls.snare.lowPassFilter.freq.value
 
     const vca1 = this.context.createGain()
-    vca1.gain.setValueAtTime(this.snare.lowPassFilter.gain, when)
+    vca1.gain.setValueAtTime(this.controls.snare.lowPassFilter.gain.value, when)
     vca1.gain.linearRampToValueAtTime(
-      0, when + this.snare.lowPassFilter.duration
+      0, when + this.controls.snare.lowPassFilter.duration.value
     )
 
     const hpf = this.context.createBiquadFilter()
     hpf.type = 'highpass'
-    hpf.frequency.value = this.snare.highPassFilter.frequency
+    hpf.frequency.value = this.controls.snare.highPassFilter.freq.value
 
     const vca2 = this.context.createGain()
-    vca2.gain.setValueAtTime(this.snare.highPassFilter.gain, when)
+    vca2.gain.setValueAtTime(this.controls.snare.highPassFilter.gain.value, when)
     vca2.gain.linearRampToValueAtTime(
-      0, when + this.snare.highPassFilter.duration
+      0, when + this.controls.snare.highPassFilter.duration.value
     )
 
     const snappy = this.context.createGain()
     snappy.gain.setValueAtTime(0, when)
-    snappy.gain.linearRampToValueAtTime(1, when + this.snare.snappy)
+    snappy.gain.linearRampToValueAtTime(1, when + this.controls.snare.snappy.value)
 
     noise.connect(lpf)
     lpf.connect(vca1)
@@ -117,7 +118,7 @@ class SnareDrum {
     snappy.connect(amplifier)
 
     noise.start(when)
-    noise.stop(when + this.duration)
+    noise.stop(when + this.controls.duration.value)
   }
 }
 

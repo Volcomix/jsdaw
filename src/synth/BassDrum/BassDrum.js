@@ -1,10 +1,4 @@
-const controls = {
-  gain: { step: 0.1, max: 10 },
-  modulator: { gain: { step: 10, max: 10000 } },
-  duration: { step: 0.1, max: 10 },
-  frequency: { step: 10, max: 8000 },
-  Q: { step: 0.1, max: 10 },
-}
+import controls from '../controls'
 
 class BassDrum {
   controls = {
