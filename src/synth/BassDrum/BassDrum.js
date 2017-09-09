@@ -47,14 +47,14 @@ class BassDrum {
     const pitchBend = this.playPitchBend(when)
 
     const bodyGain = this.context.createGain()
-    bodyGain.gain.value = this.body.gain
+    bodyGain.gain.value = this.controls.body.gain.value
 
     const pitchBendGain = this.context.createGain()
-    pitchBendGain.gain.value = this.pitchBend.gain
+    pitchBendGain.gain.value = this.controls.pitchBend.gain.value
 
     const vca = this.context.createGain()
-    vca.gain.setValueAtTime(this.gain, when)
-    vca.gain.linearRampToValueAtTime(0, when + this.duration)
+    vca.gain.setValueAtTime(this.controls.gain.value, when)
+    vca.gain.linearRampToValueAtTime(0, when + this.controls.duration.value)
 
     body.connect(bodyGain)
     pitchBend.connect(pitchBendGain)
@@ -66,19 +66,19 @@ class BassDrum {
   playBody(when) {
     const modulator = this.context.createOscillator()
     modulator.type = 'sine'
-    modulator.frequency.value = this.body.modulator.frequency
+    modulator.frequency.value = this.controls.body.modulator.freq.value
 
     const modulatorGain = this.context.createGain()
-    modulatorGain.gain.value = this.body.modulator.gain
+    modulatorGain.gain.value = this.controls.body.modulator.gain.value
 
     const carrier = this.context.createOscillator()
     carrier.type = 'sine'
-    carrier.frequency.value = this.body.frequency
+    carrier.frequency.value = this.controls.body.freq.value
 
     const hpf = this.context.createBiquadFilter()
     hpf.type = 'highpass'
-    hpf.frequency.value = this.body.bandPassFilter.frequency
-    hpf.Q.value = this.body.bandPassFilter.Q
+    hpf.frequency.value = this.controls.body.bandPassFilter.freq.value
+    hpf.Q.value = this.controls.body.bandPassFilter.Q.value
 
     const click = this.playClick(when)
 
@@ -90,8 +90,8 @@ class BassDrum {
     modulator.start(when)
     carrier.start(when)
 
-    modulator.stop(when + this.duration)
-    carrier.stop(when + this.duration)
+    modulator.stop(when + this.controls.duration.value)
+    carrier.stop(when + this.controls.duration.value)
 
     return click
   }
@@ -99,12 +99,12 @@ class BassDrum {
   playClick(when) {
     const lpf = this.context.createBiquadFilter()
     lpf.type = 'lowpass'
-    lpf.frequency.setValueAtTime(this.click.frequency, when)
+    lpf.frequency.setValueAtTime(this.controls.click.freq.value, when)
     lpf.frequency.linearRampToValueAtTime(
-      this.body.bandPassFilter.frequency,
-      when + this.click.duration
+      this.controls.body.bandPassFilter.freq.value,
+      when + this.controls.click.duration.value
     )
-    lpf.Q.value = this.body.bandPassFilter.Q
+    lpf.Q.value = this.controls.body.bandPassFilter.Q.value
 
     return lpf
   }
@@ -112,21 +112,21 @@ class BassDrum {
   playPitchBend(when) {
     const vco = this.context.createOscillator()
     vco.type = 'sine'
-    vco.frequency.setValueAtTime(this.pitchBend.startFrequency, when)
+    vco.frequency.setValueAtTime(this.controls.pitchBend.startFreq.value, when)
     vco.frequency.linearRampToValueAtTime(
-      this.pitchBend.endFrequency,
-      when + this.duration
+      this.controls.pitchBend.endFreq.value,
+      when + this.controls.duration.value
     )
 
     const lpf = this.context.createBiquadFilter()
     lpf.type = 'lowpass'
-    lpf.frequency.value = this.pitchBend.lowPassFilter.frequency
-    lpf.Q.value = this.pitchBend.lowPassFilter.Q
+    lpf.frequency.value = this.controls.pitchBend.lowPassFilter.freq.value
+    lpf.Q.value = this.controls.pitchBend.lowPassFilter.Q.value
 
     vco.connect(lpf)
 
     vco.start(when)
-    vco.stop(when + this.duration)
+    vco.stop(when + this.controls.duration.value)
 
     return lpf
   }
