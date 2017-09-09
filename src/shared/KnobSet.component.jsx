@@ -4,7 +4,7 @@ import Knob from './Knob.component'
 import { borderColor } from '../shared/styles'
 import { toName } from '../synth/Synth.component'
 
-const KnobSet = ({ name, controls, onControlsChange }) => (
+const KnobSet = ({ name, controls }) => (
   <div style={styles.container}>
     <span style={styles.title}>{name}</span>
     <div style={styles.content}>
@@ -14,13 +14,7 @@ const KnobSet = ({ name, controls, onControlsChange }) => (
           <Knob
             key={key}
             label={toName(key)}
-            step={control.step}
-            max={control.max}
-            value={control.value}
-            onValueChange={value => onControlsChange({
-              ...controls,
-              [key]: { ...control, value }
-            })}
+            control={control}
           />
         )
       })}

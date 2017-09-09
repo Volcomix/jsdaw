@@ -4,7 +4,6 @@ import Beat from './core/Beat.component'
 import Synth from './synth/Synth.component'
 import BassDrumSynth from './synth/BassDrum'
 import SnareDrumSynth from './synth/SnareDrum'
-import { backgroundColor } from './shared/styles.js'
 import { toName } from './synth/Synth.component'
 
 const context = new AudioContext()
@@ -14,13 +13,10 @@ const synths = [
 ]
 
 class App extends React.Component {
-  state = {
-    selected: 0,
-    controls: synths.map(synth => synth.controls),
-  }
+  state = { selected: 0 }
 
   render() {
-    const { selected, controls } = this.state
+    const { selected } = this.state
     return (
       <div style={styles.container}>
         <Beat context={context} synth={synths[selected]} />
@@ -28,29 +24,13 @@ class App extends React.Component {
           <Synth
             name={toName(synth.constructor.name)}
             key={index}
-            controls={controls[index]}
-            onControlsChange={controls =>
-              this.handleControlsChange(index, controls)
-            }
+            controls={synth.controls}
             isSelected={selected === index}
             onSelect={() => this.handleSynthSelect(index)}
           />
         )}
       </div>
     )
-  }
-
-  handleControlsChange = (synthIndex, controls) => {
-    synths[synthIndex].controls = controls
-    this.setState({
-      controls: this.state.controls.map((oldControls, controlsIndex) => {
-        if (controlsIndex === synthIndex) {
-          return controls
-        } else {
-          return oldControls
-        }
-      })
-    })
   }
 
   handleSynthSelect = selected => {

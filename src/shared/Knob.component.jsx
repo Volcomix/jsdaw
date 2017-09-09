@@ -9,11 +9,21 @@ const width = 24
 const lineWidth = 1.5
 
 class Knob extends React.Component {
-  static defaultProps = { min: 0 }
+  constructor(props) {
+    super(props)
+    this.control = props.control
+    this.state = {
+      value: this.control.value,
+      isHovered: false,
+      isDragging: false,
+    }
+  }
 
-  state = {
-    isHovered: false,
-    isDragging: false,
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.control !== this.props.control) {
+      this.control = nextProps.control
+      this.setState({ value: this.control.value })
+    }
   }
 
   componentDidMount() {
@@ -26,7 +36,6 @@ class Knob extends React.Component {
   }
 
   render() {
-    const { label, min, max, step, value, onValueChange } = this.props
     return (
       <span style={styles.container}>
         <div
@@ -49,10 +58,10 @@ class Knob extends React.Component {
             ref={canvas => this.foreground = canvas}
           />
         </div>
-        <label style={styles.label}>{label}</label>
+        <label style={styles.label}>{this.props.label}</label>
         {
           this.state.isHovered || this.state.isDragging
-            ? <span style={styles.tooltip}>{value}</span>
+            ? <span style={styles.tooltip}>{this.state.value}</span>
             : undefined
         }
       </span>
@@ -72,7 +81,9 @@ class Knob extends React.Component {
   }
 
   draw() {
-    const { value, min, max } = this.props
+    const { value } = this.state
+    const { max } = this.control
+    const min = this.control.min || 0
     const center = width / 2
     const radius = center - lineWidth / 2
 
@@ -118,26 +129,31 @@ class Knob extends React.Component {
 
   handleMouseMove = event => {
     event.preventDefault()
-    const { step, value, onValueChange } = this.props
+    const { step } = this.control
+    const { value } = this.state
     const sensitivity = event.shiftKey ? 0.1 : 1
     let nextValue = value + (this.centerY - event.clientY) * step * sensitivity
     nextValue = this.clamp(nextValue)
     this.centerY = event.clientY
-    onValueChange(nextValue)
+    this.control.value = nextValue
+    this.setState({ value: nextValue })
   }
 
   handleWheel = event => {
     event.preventDefault()
-    const { step, value, onValueChange } = this.props
+    const { step } = this.control
+    const { value } = this.state
     const sensitivity = event.shiftKey ? 0.1 : 1
     const delta = Math.max(-1, Math.min(1, event.deltaY))
     let nextValue = value - delta * step * sensitivity
     nextValue = this.clamp(nextValue)
-    onValueChange(nextValue)
+    this.control.value = nextValue
+    this.setState({ value: nextValue })
   }
 
   clamp = value => {
-    const { min, max } = this.props
+    const { max } = this.control
+    const min = this.control.min || 0
     if (value < min) {
       return min
     } else if (value > max) {
