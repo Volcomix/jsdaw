@@ -24,6 +24,7 @@ class App extends React.Component {
           name='Bass drum'
           controls={bassDrumSynth.controls}
           isSelected={selectedSynth === bassDrumSynth}
+          onSelect={() => this.handleSynthSelect(bassDrumSynth)}
         />
         <SnareDrum
           synth={snareDrumSynth}
