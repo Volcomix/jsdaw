@@ -7,6 +7,7 @@ import BassDrumSynth from './synth/BassDrum/BassDrum'
 import SnareDrum from './synth/SnareDrum/SnareDrum.component'
 import SnareDrumSynth from './synth/SnareDrum/SnareDrum'
 import { backgroundColor } from './shared/styles.js'
+import { toName } from './synth/Synth.component'
 
 const context = new AudioContext()
 const synths = [
@@ -25,29 +26,27 @@ class App extends React.Component {
     return (
       <div style={styles.container}>
         <Beat context={context} synth={synths[selected]} />
-        <Synth
-          name='Bass drum'
-          controls={controls[0]}
-          onControlsChange={controls => this.handleControlsChange(0, controls)}
-          isSelected={selected === 0}
-          onSelect={() => this.handleSynthSelect(0)}
-        />
-        <Synth
-          name='Snare drum'
-          controls={controls[1]}
-          onControlsChange={controls => this.handleControlsChange(1, controls)}
-          isSelected={selected === 1}
-          onSelect={() => this.handleSynthSelect(1)}
-        />
+        {synths.map((synth, index) =>
+          <Synth
+            name={toName(synth.constructor.name)}
+            key={index}
+            controls={controls[index]}
+            onControlsChange={controls =>
+              this.handleControlsChange(index, controls)
+            }
+            isSelected={selected === index}
+            onSelect={() => this.handleSynthSelect(index)}
+          />
+        )}
       </div>
     )
   }
 
-  handleControlsChange = (synth, controls) => {
-    synths[synth].controls = controls
+  handleControlsChange = (synthIndex, controls) => {
+    synths[synthIndex].controls = controls
     this.setState({
-      controls: this.state.controls.map((oldControls, index) => {
-        if (index === synth) {
+      controls: this.state.controls.map((oldControls, controlsIndex) => {
+        if (controlsIndex === synthIndex) {
           return controls
         } else {
           return oldControls

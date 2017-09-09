@@ -95,7 +95,7 @@ const styles = {
 }
 
 export function toName(controlKey) {
-  return controlKey.replace(/^[a-z]|[A-Z]/g, (match, offset) =>
+  return controlKey.replace(/^[a-z]|[A-Z0-9]/g, (match, offset) =>
     offset === 0 ? match.toUpperCase() : " " + match.toLowerCase()
   )
 }
