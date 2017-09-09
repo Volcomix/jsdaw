@@ -1,32 +1,39 @@
+const controls = {
+  gain: { step: 0.1, max: 10 },
+  modulator: { gain: { step: 10, max: 10000 } },
+  duration: { step: 0.1, max: 10 },
+  frequency: { step: 10, max: 8000 },
+  Q: { step: 0.1, max: 10 },
+}
+
 class BassDrum {
-  duration = 0.1
-  gain = 1
-
-  body = {
-    frequency: 110,
-    gain: 1,
-    modulator: {
-      frequency: 70,
-      gain: 250,
+  controls = {
+    gain: { ...controls.gain, value: 1 },
+    duration: { ...controls.duration, value: 0.1 },
+    pitchBend: {
+      gain: { ...controls.gain, value: 1 },
+      startFreq: { ...controls.frequency, value: 110 },
+      endFreq: { ...controls.frequency, value: 10 },
+      lowPassFilter: {
+        freq: { ...controls.frequency, value: 80 },
+        Q: { ...controls.Q, value: 2 },
+      },
     },
-    bandPassFilter: {
-      frequency: 100,
-      Q: 0.2,
+    body: {
+      gain: { ...controls.gain, value: 1 },
+      freq: { ...controls.frequency, value: 110 },
+      modulator: {
+        gain: { ...controls.modulator.gain, value: 250 },
+        freq: { ...controls.frequency, value: 70 },
+      },
+      bandPassFilter: {
+        freq: { ...controls.frequency, value: 100 },
+        Q: { ...controls.Q, value: 0.2 },
+      },
     },
-  }
-
-  click = {
-    duration: 0.01,
-    frequency: 3000,
-  }
-
-  pitchBend = {
-    startFrequency: 110,
-    endFrequency: 10,
-    gain: 1,
-    lowPassFilter: {
-      frequency: 80,
-      Q: 2,
+    click: {
+      duration: { ...controls.duration, value: 0.01 },
+      freq: { ...controls.frequency, value: 3000 },
     },
   }
 

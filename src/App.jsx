@@ -2,6 +2,7 @@ import React from 'react'
 
 import { backgroundColor } from './shared/styles.js'
 import Beat from './core/Beat.component'
+import Synth from './synth/Synth.component'
 import BassDrum from './synth/BassDrum/BassDrum.component'
 import BassDrumSynth from './synth/BassDrum/BassDrum'
 import SnareDrum from './synth/SnareDrum/SnareDrum.component'
@@ -19,11 +20,7 @@ class App extends React.Component {
     return (
       <div style={styles.container}>
         <Beat context={context} synth={selectedSynth} />
-        <BassDrum
-          synth={bassDrumSynth}
-          selectedSynth={selectedSynth}
-          onSelect={this.handleSynthSelect}
-        />
+        <Synth name='Bass drum' controls={bassDrumSynth.controls} />
         <SnareDrum
           synth={snareDrumSynth}
           selectedSynth={selectedSynth}
