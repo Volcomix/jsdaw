@@ -1,7 +1,6 @@
 import React from 'react'
 
 import RadialSlider from '../shared/RadialSlider.component'
-import Beat from './Beat'
 import { keyColor, borderColor } from '../shared/styles'
 
 class BeatComponent extends React.Component {
@@ -9,20 +8,17 @@ class BeatComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.beat = new Beat(props.context, props.synth)
+    this.pattern = props.pattern
     this.state = {
-      bpm: this.beat.bpm,
-      isLooping: this.beat.isLooping,
+      bpm: this.pattern.bpm,
+      isLooping: this.pattern.isLooping,
       isButtonDown: false,
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.context !== this.props.context) {
-      this.beat.context = nextProps.context
-    }
-    if (nextProps.synth !== this.props.synth) {
-      this.beat.synth = nextProps.synth
+    if (nextProps.pattern !== this.props.pattern) {
+      this.pattern = nextProps.pattern
     }
   }
 
@@ -60,16 +56,16 @@ class BeatComponent extends React.Component {
   }
 
   handleBpmChange = bpm => {
-    this.beat.bpm = bpm
+    this.pattern.bpm = bpm
     this.setState({ bpm })
   }
 
   handleButtonClick = () => {
     const { isLooping } = this.state
     if (isLooping) {
-      this.beat.stop()
+      this.pattern.stop()
     } else {
-      this.beat.start()
+      this.pattern.start()
     }
     this.setState({ isLooping: !isLooping })
   }
