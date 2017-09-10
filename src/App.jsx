@@ -1,10 +1,8 @@
 import React from 'react'
 
 import Pattern from './pattern/Pattern.component'
-import DrumPattern from './pattern/DrumPattern'
-import drum1 from './pattern/drum1'
-
 import Synth from './synth/Synth.component'
+
 import BassDrumSynth from './synth/BassDrum'
 import SnareDrumSynth from './synth/SnareDrum'
 
@@ -15,7 +13,6 @@ const synths = {
   bassDrum: new BassDrumSynth(context, context.destination),
   snareDrum: new SnareDrumSynth(context, context.destination),
 }
-const pattern = new DrumPattern(context, synths, drum1)
 
 class App extends React.Component {
   state = { selected: 'bassDrum' }
@@ -24,7 +21,7 @@ class App extends React.Component {
     const { selected } = this.state
     return (
       <div style={styles.container}>
-        <Pattern context={context} pattern={pattern} />
+        <Pattern context={context} synths={synths} />
         {Object.keys(synths).map(synthName => {
           const synth = synths[synthName]
           return (

@@ -1,32 +1,64 @@
 import React from 'react'
 
 import RadialSlider from '../shared/RadialSlider.component'
+import List from '../shared/List.component'
+
+import DrumPattern from './DrumPattern'
+import bassDrum from './bassDrum'
+import snareDrum from './snareDrum'
+import drum1 from './drum1'
+
 import { keyColor, borderColor } from '../shared/styles'
+
+import { toName } from '../synth/Synth.component'
+
+const patterns = {
+  bassDrum,
+  snareDrum,
+  drum1
+}
+const defaultPattern = 'drum1'
 
 class PatternComponent extends React.Component {
   static defaultProps = { min: 43, max: 240 }
 
   constructor(props) {
     super(props)
-    this.pattern = props.pattern
+    this.pattern = new DrumPattern(
+      props.context,
+      props.synths,
+      patterns[defaultPattern]
+    )
     this.state = {
       bpm: this.pattern.bpm,
       isLooping: this.pattern.isLooping,
       isButtonDown: false,
+      selected: defaultPattern,
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.pattern !== this.props.pattern) {
-      this.pattern = nextProps.pattern
+    if (nextProps.context !== this.props.context) {
+      this.pattern.context = nextProps.context
+    }
+    if (nextProps.synths !== this.props.synths) {
+      this.pattern.synths = nextProps.synths
     }
   }
 
   render() {
     const { min, max } = this.props
-    const { bpm, isLooping, isButtonDown } = this.state
+    const { bpm, isLooping, isButtonDown, selected } = this.state
     return (
       <div style={styles.container}>
+        <List
+          items={Object.keys(patterns).reduce((items, name) => {
+            items[name] = toName(name)
+            return items
+          }, {})}
+          selected={selected}
+          onSelect={this.handlePatternSelect}
+        />
         <RadialSlider
           width={96}
           lineWidth={1.5}
@@ -77,12 +109,18 @@ class PatternComponent extends React.Component {
   handleButtonUp = () => {
     this.setState({ isButtonDown: false })
   }
+
+  handlePatternSelect = selected => {
+    this.pattern.pattern = patterns[selected]
+    this.setState({ selected })
+  }
 }
 
 const styles = {
   container: {
     display: 'flex',
     alignItems: 'center',
+    marginLeft: 8,
   },
   icon: {
     fontSize: 36,
