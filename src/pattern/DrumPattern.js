@@ -1,4 +1,4 @@
-class Pattern {
+class DrumPattern {
   bpm = 180
   isLooping = false
   i = 0
@@ -54,4 +54,4 @@ class Pattern {
   }
 }
 
-export default Pattern
+export default DrumPattern

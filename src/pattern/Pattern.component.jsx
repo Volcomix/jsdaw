@@ -3,7 +3,7 @@ import React from 'react'
 import RadialSlider from '../shared/RadialSlider.component'
 import { keyColor, borderColor } from '../shared/styles'
 
-class BeatComponent extends React.Component {
+class PatternComponent extends React.Component {
   static defaultProps = { min: 43, max: 240 }
 
   constructor(props) {
@@ -112,4 +112,4 @@ const styles = {
   },
 }
 
-export default BeatComponent
+export default PatternComponent
