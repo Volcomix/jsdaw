@@ -2,7 +2,7 @@ import controls from './controls'
 
 class HiHat {
   controls = {
-    pitch: { step: 10, max: 100000, value: 22800 }
+    modulatorGain: { step: 10, max: 100000, value: 22800 }
   }
 
   constructor(context, destination) {
@@ -12,18 +12,13 @@ class HiHat {
 
   playSound(when) {
     const duration = 0.520
-    const modulatorPitchGainValue = this.controls.pitch.value
-    const modulatorFMGainValue = 0
 
     const modulator1 = this.context.createOscillator()
     modulator1.type = 'square'
     modulator1.frequency.value = 1047
 
-    const modulator1PitchGain = this.context.createGain()
-    modulator1PitchGain.gain.value = modulatorPitchGainValue
-
-    const modulator1FMGain = this.context.createGain()
-    modulator1FMGain.gain.value = modulatorFMGainValue
+    const modulator1Gain = this.context.createGain()
+    modulator1Gain.gain.value = this.controls.modulatorGain.value
 
     const carrier1 = this.context.createOscillator()
     carrier1.type = 'square'
@@ -33,11 +28,8 @@ class HiHat {
     modulator2.type = 'square'
     modulator2.frequency.value = 1109
 
-    const modulator2PitchGain = this.context.createGain()
-    modulator2PitchGain.gain.value = modulatorPitchGainValue
-
-    const modulator2FMGain = this.context.createGain()
-    modulator2FMGain.gain.value = modulatorFMGainValue
+    const modulator2Gain = this.context.createGain()
+    modulator2Gain.gain.value = this.controls.modulatorGain.value
 
     const carrier2 = this.context.createOscillator()
     carrier2.type = 'square'
@@ -47,11 +39,8 @@ class HiHat {
     modulator3.type = 'square'
     modulator3.frequency.value = 1109
 
-    const modulator3PitchGain = this.context.createGain()
-    modulator3PitchGain.gain.value = modulatorPitchGainValue
-
-    const modulator3FMGain = this.context.createGain()
-    modulator3FMGain.gain.value = modulatorFMGainValue
+    const modulator3Gain = this.context.createGain()
+    modulator3Gain.gain.value = this.controls.modulatorGain.value
 
     const carrier3 = this.context.createOscillator()
     carrier3.type = 'square'
@@ -74,24 +63,18 @@ class HiHat {
     vca2.gain.setValueAtTime(0.01, when)
     vca2.gain.exponentialRampToValueAtTime(0.00001, when + duration)
 
-    modulator1.connect(modulator1PitchGain)
-    modulator1.connect(modulator1FMGain)
-    modulator1PitchGain.connect(carrier1.frequency)
-    modulator1FMGain.connect(carrier1.detune)
+    modulator1.connect(modulator1Gain)
+    modulator1Gain.connect(carrier1.frequency)
     carrier1.connect(bpf)
     carrier1.connect(hpf)
 
-    modulator2.connect(modulator2PitchGain)
-    modulator2.connect(modulator2FMGain)
-    modulator2PitchGain.connect(carrier2.frequency)
-    modulator2FMGain.connect(carrier2.detune)
+    modulator2.connect(modulator2Gain)
+    modulator2Gain.connect(carrier2.frequency)
     carrier2.connect(bpf)
     carrier2.connect(hpf)
 
-    modulator3.connect(modulator3PitchGain)
-    modulator3.connect(modulator3FMGain)
-    modulator3PitchGain.connect(carrier3.frequency)
-    modulator3FMGain.connect(carrier3.detune)
+    modulator3.connect(modulator3Gain)
+    modulator3Gain.connect(carrier3.frequency)
     carrier3.connect(bpf)
     carrier3.connect(hpf)
 
