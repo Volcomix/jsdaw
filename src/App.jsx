@@ -3,19 +3,21 @@ import React from 'react'
 import Pattern from './pattern/Pattern.component'
 import Synth from './synth/Synth.component'
 
-import BassDrumSynth from './synth/BassDrum'
-import SnareDrumSynth from './synth/SnareDrum'
+import BassDrum from './synth/BassDrum'
+import SnareDrum from './synth/SnareDrum'
+import HiHat from './synth/HiHat'
 
 import { toName } from './synth/Synth.component'
 
 const context = new AudioContext()
 const synths = {
-  bassDrum: new BassDrumSynth(context, context.destination),
-  snareDrum: new SnareDrumSynth(context, context.destination),
+  bassDrum: new BassDrum(context, context.destination),
+  snareDrum: new SnareDrum(context, context.destination),
+  hiHat: new HiHat(context, context.destination),
 }
 
 class App extends React.Component {
-  state = { selected: 'bassDrum' }
+  state = { selected: 'hiHat' }
 
   render() {
     const { selected } = this.state

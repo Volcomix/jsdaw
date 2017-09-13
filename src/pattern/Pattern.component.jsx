@@ -6,6 +6,7 @@ import List from '../shared/List.component'
 import DrumPattern from './DrumPattern'
 import bassDrum from './bassDrum'
 import snareDrum from './snareDrum'
+import hiHat from './hiHat'
 import drum1 from './drum1'
 
 import { keyColor, borderColor } from '../shared/styles'
@@ -15,9 +16,10 @@ import { toName } from '../synth/Synth.component'
 const patterns = {
   bassDrum,
   snareDrum,
-  drum1
+  hiHat,
+  drum1,
 }
-const defaultPattern = 'drum1'
+const defaultPattern = 'hiHat'
 
 class PatternComponent extends React.Component {
   static defaultProps = { min: 43, max: 240 }
