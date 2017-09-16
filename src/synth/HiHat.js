@@ -3,7 +3,10 @@ import controls, { exponentialZero } from './controls'
 class HiHat {
   controls = {
     gain: { ...controls.gain, value: 1 },
-    duration: { ...controls.duration, value: 0.520 },
+    duration: { ...controls.duration, value: 5 },
+    attack: { ...controls.duration, step: 0.001, value: 0.0005 },
+    hold: { ...controls.duration, step: 0.001, value: 0.0005 },
+    decay: { ...controls.duration, value: 0.520 },
     oscillators: {
       modGain: { ...controls.modulator.gain, max: 40000, value: 2000 },
       osc1Freq: {
@@ -21,13 +24,17 @@ class HiHat {
     },
     impact: {
       gain: { ...controls.gain, value: 1 },
-      duration: { ...controls.duration, value: 0.367 },
       freq: { ...controls.frequency, max: 30000, value: 15800 },
+      attack: { ...controls.duration, step: 0.001, value: 0.0005 },
+      decay: { ...controls.duration, value: 0.367 },
     },
     body: {
       gain: { ...controls.gain, step: 0.01, value: 0.01 },
       freq: { ...controls.frequency, value: 1570 },
       Q: { ...controls.Q, max: 100, value: 6.6 },
+      attack: { ...controls.duration, step: 0.001, value: 0.0026 },
+      hold: { ...controls.duration, step: 0.001, value: 0.0005 },
+      decay: { ...controls.duration, value: 3.7 },
     },
   }
 
@@ -44,15 +51,18 @@ class HiHat {
     const impact = this.playImpact(when, oscillators)
     const body = this.playBody(when, oscillators)
 
+    const attack = when + this.controls.attack.value
+    const hold = attack + this.controls.hold.value
+    const decay = hold + this.controls.decay.value
     const vca = this.context.createGain()
-    vca.gain.setValueAtTime(
+    vca.gain.setValueAtTime(0, when)
+    vca.gain.linearRampToValueAtTime(this.controls.gain.value, attack)
+    vca.gain.linearRampToValueAtTime(
       this.controls.gain.value || exponentialZero,
-      when
+      hold
     )
-    vca.gain.exponentialRampToValueAtTime(
-      exponentialZero,
-      when + this.controls.duration.value
-    )
+    vca.gain.exponentialRampToValueAtTime(exponentialZero, decay)
+    vca.gain.setValueAtTime(0, decay)
 
     impact.connect(vca)
     body.connect(vca)
@@ -89,15 +99,16 @@ class HiHat {
     bpf.type = 'bandpass'
     bpf.frequency.value = this.controls.impact.freq.value
 
+    const attack = when + this.controls.impact.attack.value
+    const decay = attack + this.controls.impact.decay.value
     const vca = this.context.createGain()
-    vca.gain.setValueAtTime(
+    vca.gain.setValueAtTime(0, when)
+    vca.gain.linearRampToValueAtTime(
       this.controls.impact.gain.value || exponentialZero,
-      when
+      attack
     )
-    vca.gain.exponentialRampToValueAtTime(
-      exponentialZero,
-      when + this.controls.impact.duration.value
-    )
+    vca.gain.exponentialRampToValueAtTime(exponentialZero, decay)
+    vca.gain.setValueAtTime(0, decay)
 
     oscillators.forEach(oscillator => {
       oscillator.connect(bpf)
@@ -110,8 +121,22 @@ class HiHat {
   playBody(when, oscillators) {
     const hpf = this.context.createBiquadFilter()
     hpf.type = 'highpass'
-    hpf.frequency.value = this.controls.body.freq.value
     hpf.Q.value = this.controls.body.Q.value
+
+    const attack = when + this.controls.body.attack.value
+    const hold = attack + this.controls.body.hold.value
+    const decay = hold + this.controls.body.decay.value
+    hpf.frequency.setValueAtTime(0, when)
+    hpf.frequency.linearRampToValueAtTime(
+      this.controls.body.freq.value,
+      attack
+    )
+    hpf.frequency.linearRampToValueAtTime(
+      this.controls.body.freq.value || exponentialZero,
+      hold
+    )
+    hpf.frequency.exponentialRampToValueAtTime(exponentialZero, decay)
+    hpf.frequency.setValueAtTime(0, decay)
 
     const gain = this.context.createGain()
     gain.gain.value = this.controls.body.gain.value
