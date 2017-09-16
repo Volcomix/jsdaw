@@ -17,7 +17,7 @@ const synths = {
 }
 
 class App extends React.Component {
-  state = { selected: 'hiHat' }
+  state = { selected: 'bassDrum' }
 
   render() {
     const { selected } = this.state

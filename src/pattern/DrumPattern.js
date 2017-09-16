@@ -1,5 +1,5 @@
 class DrumPattern {
-  bpm = 120
+  bpm = 210
   isLooping = false
   i = 0
 
