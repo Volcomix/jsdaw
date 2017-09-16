@@ -1,8 +1,33 @@
-import controls from './controls'
+import controls, { exponentialZero } from './controls'
 
 class HiHat {
   controls = {
-    modulatorGain: { step: 10, max: 100000, value: 22800 }
+    gain: { ...controls.gain, step: 0.01, value: 0.01 },
+    duration: { ...controls.duration, value: 0.520 },
+    oscillators: {
+      modGain: { ...controls.modulator.gain, max: 40000, value: 2000 },
+      osc1Freq: {
+        modulator: { ...controls.frequency, value: 1047 },
+        carrier: { ...controls.frequency, value: 1481 },
+      },
+      osc2Freq: {
+        modulator: { ...controls.frequency, value: 1109 },
+        carrier: { ...controls.frequency, value: 1049 },
+      },
+      osc3Freq: {
+        modulator: { ...controls.frequency, value: 1175 },
+        carrier: { ...controls.frequency, value: 1480 },
+      },
+    },
+    bandPassFilter: {
+      gain: { ...controls.gain, step: 1, max: 1000, value: 100 },
+      duration: { ...controls.duration, value: 0.367 },
+      freq: { ...controls.frequency, max: 30000, value: 15800 },
+    },
+    highPassFilter: {
+      freq: { ...controls.frequency, value: 1570 },
+      Q: { ...controls.Q, max: 100, value: 66 },
+    },
   }
 
   constructor(context, destination) {
@@ -11,92 +36,91 @@ class HiHat {
   }
 
   playSound(when) {
-    const duration = 0.520
+    const oscillator1 = this.playOscillator(
+      when,
+      this.controls.oscillators.osc1Freq.modulator.value,
+      this.controls.oscillators.osc1Freq.carrier.value
+    )
 
-    const modulator1 = this.context.createOscillator()
-    modulator1.type = 'square'
-    modulator1.frequency.value = 1047
+    const oscillator2 = this.playOscillator(
+      when,
+      this.controls.oscillators.osc2Freq.modulator.value,
+      this.controls.oscillators.osc2Freq.carrier.value
+    )
 
-    const modulator1Gain = this.context.createGain()
-    modulator1Gain.gain.value = this.controls.modulatorGain.value
-
-    const carrier1 = this.context.createOscillator()
-    carrier1.type = 'square'
-    carrier1.frequency.value = 1481
-
-    const modulator2 = this.context.createOscillator()
-    modulator2.type = 'square'
-    modulator2.frequency.value = 1109
-
-    const modulator2Gain = this.context.createGain()
-    modulator2Gain.gain.value = this.controls.modulatorGain.value
-
-    const carrier2 = this.context.createOscillator()
-    carrier2.type = 'square'
-    carrier2.frequency.value = 1049
-
-    const modulator3 = this.context.createOscillator()
-    modulator3.type = 'square'
-    modulator3.frequency.value = 1109
-
-    const modulator3Gain = this.context.createGain()
-    modulator3Gain.gain.value = this.controls.modulatorGain.value
-
-    const carrier3 = this.context.createOscillator()
-    carrier3.type = 'square'
-    carrier3.frequency.value = 1049
+    const oscillator3 = this.playOscillator(
+      when,
+      this.controls.oscillators.osc3Freq.modulator.value,
+      this.controls.oscillators.osc3Freq.carrier.value
+    )
 
     const bpf = this.context.createBiquadFilter()
     bpf.type = 'bandpass'
-    bpf.frequency.value = 15800
+    bpf.frequency.value = this.controls.bandPassFilter.freq.value
 
     const hpf = this.context.createBiquadFilter()
     hpf.type = 'highpass'
-    hpf.frequency.value = 1570
-    hpf.Q.value = 66
+    hpf.frequency.value = this.controls.highPassFilter.freq.value
+    hpf.Q.value = this.controls.highPassFilter.Q.value
 
     const vca1 = this.context.createGain()
-    vca1.gain.setValueAtTime(100, when)
-    vca1.gain.exponentialRampToValueAtTime(0.00001, when + 0.367)
+    vca1.gain.setValueAtTime(
+      this.controls.bandPassFilter.gain.value || exponentialZero,
+      when
+    )
+    vca1.gain.exponentialRampToValueAtTime(
+      exponentialZero,
+      when + this.controls.bandPassFilter.duration.value
+    )
 
     const vca2 = this.context.createGain()
-    vca2.gain.setValueAtTime(0.01, when)
-    vca2.gain.exponentialRampToValueAtTime(0.00001, when + duration)
+    vca2.gain.setValueAtTime(
+      this.controls.gain.value || exponentialZero,
+      when
+    )
+    vca2.gain.exponentialRampToValueAtTime(
+      exponentialZero,
+      when + this.controls.duration.value
+    )
 
-    modulator1.connect(modulator1Gain)
-    modulator1Gain.connect(carrier1.frequency)
-    carrier1.connect(bpf)
-    carrier1.connect(hpf)
+    oscillator1.connect(bpf)
+    oscillator1.connect(hpf)
 
-    modulator2.connect(modulator2Gain)
-    modulator2Gain.connect(carrier2.frequency)
-    carrier2.connect(bpf)
-    carrier2.connect(hpf)
+    oscillator2.connect(bpf)
+    oscillator2.connect(hpf)
 
-    modulator3.connect(modulator3Gain)
-    modulator3Gain.connect(carrier3.frequency)
-    carrier3.connect(bpf)
-    carrier3.connect(hpf)
+    oscillator3.connect(bpf)
+    oscillator3.connect(hpf)
 
     bpf.connect(vca1)
     vca1.connect(vca2)
     hpf.connect(vca2)
 
     vca2.connect(this.destination)
+  }
 
-    modulator1.start(when)
-    carrier1.start(when)
-    modulator2.start(when)
-    carrier2.start(when)
-    modulator3.start(when)
-    carrier3.start(when)
+  playOscillator(when, modulatorFrequency, carrierFrequency) {
+    const modulator = this.context.createOscillator()
+    modulator.type = 'square'
+    modulator.frequency.value = modulatorFrequency
 
-    modulator1.stop(when + duration)
-    carrier1.stop(when + duration)
-    modulator2.stop(when + duration)
-    carrier2.stop(when + duration)
-    modulator3.stop(when + duration)
-    carrier3.stop(when + duration)
+    const modulatorGain = this.context.createGain()
+    modulatorGain.gain.value = this.controls.oscillators.modGain.value
+
+    const carrier = this.context.createOscillator()
+    carrier.type = 'square'
+    carrier.frequency.value = carrierFrequency
+
+    modulator.connect(modulatorGain)
+    modulatorGain.connect(carrier.frequency)
+
+    modulator.start(when)
+    carrier.start(when)
+
+    modulator.stop(when + this.controls.duration.value)
+    carrier.stop(when + this.controls.duration.value)
+
+    return carrier
   }
 }
 

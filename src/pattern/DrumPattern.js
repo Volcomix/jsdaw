@@ -1,6 +1,6 @@
 class DrumPattern {
   bpm = 120
-  isLooping = true
+  isLooping = false
   i = 0
 
   constructor(context, synths, pattern) {
