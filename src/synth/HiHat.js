@@ -36,80 +36,27 @@ class HiHat {
   }
 
   playSound(when) {
-    const oscillator1 = this.playOscillator(
-      when,
-      this.controls.oscillators.osc1Freq.modulator.value,
-      this.controls.oscillators.osc1Freq.carrier.value
+    const oscillators = ['osc1Freq', 'osc2Freq', 'osc3Freq'].map(key =>
+      this.playOscillator(when, this.controls.oscillators[key])
     )
 
-    const oscillator2 = this.playOscillator(
-      when,
-      this.controls.oscillators.osc2Freq.modulator.value,
-      this.controls.oscillators.osc2Freq.carrier.value
-    )
+    const impact = this.playImpact(when, oscillators)
+    const body = this.playBody(when, oscillators, impact)
 
-    const oscillator3 = this.playOscillator(
-      when,
-      this.controls.oscillators.osc3Freq.modulator.value,
-      this.controls.oscillators.osc3Freq.carrier.value
-    )
-
-    const bpf = this.context.createBiquadFilter()
-    bpf.type = 'bandpass'
-    bpf.frequency.value = this.controls.bandPassFilter.freq.value
-
-    const hpf = this.context.createBiquadFilter()
-    hpf.type = 'highpass'
-    hpf.frequency.value = this.controls.highPassFilter.freq.value
-    hpf.Q.value = this.controls.highPassFilter.Q.value
-
-    const vca1 = this.context.createGain()
-    vca1.gain.setValueAtTime(
-      this.controls.bandPassFilter.gain.value || exponentialZero,
-      when
-    )
-    vca1.gain.exponentialRampToValueAtTime(
-      exponentialZero,
-      when + this.controls.bandPassFilter.duration.value
-    )
-
-    const vca2 = this.context.createGain()
-    vca2.gain.setValueAtTime(
-      this.controls.gain.value || exponentialZero,
-      when
-    )
-    vca2.gain.exponentialRampToValueAtTime(
-      exponentialZero,
-      when + this.controls.duration.value
-    )
-
-    oscillator1.connect(bpf)
-    oscillator1.connect(hpf)
-
-    oscillator2.connect(bpf)
-    oscillator2.connect(hpf)
-
-    oscillator3.connect(bpf)
-    oscillator3.connect(hpf)
-
-    bpf.connect(vca1)
-    vca1.connect(vca2)
-    hpf.connect(vca2)
-
-    vca2.connect(this.destination)
+    body.connect(this.destination)
   }
 
-  playOscillator(when, modulatorFrequency, carrierFrequency) {
+  playOscillator(when, frequency) {
     const modulator = this.context.createOscillator()
     modulator.type = 'square'
-    modulator.frequency.value = modulatorFrequency
+    modulator.frequency.value = frequency.modulator.value
 
     const modulatorGain = this.context.createGain()
     modulatorGain.gain.value = this.controls.oscillators.modGain.value
 
     const carrier = this.context.createOscillator()
     carrier.type = 'square'
-    carrier.frequency.value = carrierFrequency
+    carrier.frequency.value = frequency.carrier.value
 
     modulator.connect(modulatorGain)
     modulatorGain.connect(carrier.frequency)
@@ -121,6 +68,54 @@ class HiHat {
     carrier.stop(when + this.controls.duration.value)
 
     return carrier
+  }
+
+  playImpact(when, oscillators) {
+    const bpf = this.context.createBiquadFilter()
+    bpf.type = 'bandpass'
+    bpf.frequency.value = this.controls.bandPassFilter.freq.value
+
+    const vca = this.context.createGain()
+    vca.gain.setValueAtTime(
+      this.controls.bandPassFilter.gain.value || exponentialZero,
+      when
+    )
+    vca.gain.exponentialRampToValueAtTime(
+      exponentialZero,
+      when + this.controls.bandPassFilter.duration.value
+    )
+
+    oscillators.forEach(oscillator => {
+      oscillator.connect(bpf)
+    })
+    bpf.connect(vca)
+
+    return vca
+  }
+
+  playBody(when, oscillators, impact) {
+    const hpf = this.context.createBiquadFilter()
+    hpf.type = 'highpass'
+    hpf.frequency.value = this.controls.highPassFilter.freq.value
+    hpf.Q.value = this.controls.highPassFilter.Q.value
+
+    const vca = this.context.createGain()
+    vca.gain.setValueAtTime(
+      this.controls.gain.value || exponentialZero,
+      when
+    )
+    vca.gain.exponentialRampToValueAtTime(
+      exponentialZero,
+      when + this.controls.duration.value
+    )
+
+    oscillators.forEach(oscillator => {
+      oscillator.connect(hpf)
+    })
+    impact.connect(vca)
+    hpf.connect(vca)
+
+    return vca
   }
 }
 
