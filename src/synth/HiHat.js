@@ -2,7 +2,7 @@ import controls, { exponentialZero } from './controls'
 
 class HiHat {
   controls = {
-    gain: { ...controls.gain, step: 0.01, value: 0.01 },
+    gain: { ...controls.gain, value: 1 },
     duration: { ...controls.duration, value: 0.520 },
     oscillators: {
       modGain: { ...controls.modulator.gain, max: 40000, value: 2000 },
@@ -20,11 +20,12 @@ class HiHat {
       },
     },
     impact: {
-      gain: { ...controls.gain, step: 1, max: 1000, value: 100 },
+      gain: { ...controls.gain, value: 1 },
       duration: { ...controls.duration, value: 0.367 },
       freq: { ...controls.frequency, max: 30000, value: 15800 },
     },
     body: {
+      gain: { ...controls.gain, step: 0.01, value: 0.01 },
       freq: { ...controls.frequency, value: 1570 },
       Q: { ...controls.Q, max: 100, value: 6.6 },
     },
@@ -41,9 +42,22 @@ class HiHat {
     )
 
     const impact = this.playImpact(when, oscillators)
-    const body = this.playBody(when, oscillators, impact)
+    const body = this.playBody(when, oscillators)
 
-    body.connect(this.destination)
+    const vca = this.context.createGain()
+    vca.gain.setValueAtTime(
+      this.controls.gain.value || exponentialZero,
+      when
+    )
+    vca.gain.exponentialRampToValueAtTime(
+      exponentialZero,
+      when + this.controls.duration.value
+    )
+
+    impact.connect(vca)
+    body.connect(vca)
+
+    vca.connect(this.destination)
   }
 
   playOscillator(when, frequency) {
@@ -93,29 +107,21 @@ class HiHat {
     return vca
   }
 
-  playBody(when, oscillators, impact) {
+  playBody(when, oscillators) {
     const hpf = this.context.createBiquadFilter()
     hpf.type = 'highpass'
     hpf.frequency.value = this.controls.body.freq.value
     hpf.Q.value = this.controls.body.Q.value
 
-    const vca = this.context.createGain()
-    vca.gain.setValueAtTime(
-      this.controls.gain.value || exponentialZero,
-      when
-    )
-    vca.gain.exponentialRampToValueAtTime(
-      exponentialZero,
-      when + this.controls.duration.value
-    )
+    const gain = this.context.createGain()
+    gain.gain.value = this.controls.body.gain.value
 
     oscillators.forEach(oscillator => {
       oscillator.connect(hpf)
     })
-    impact.connect(vca)
-    hpf.connect(vca)
+    hpf.connect(gain)
 
-    return vca
+    return gain
   }
 }
 
