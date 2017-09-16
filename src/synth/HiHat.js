@@ -19,14 +19,14 @@ class HiHat {
         carrier: { ...controls.frequency, value: 1480 },
       },
     },
-    bandPassFilter: {
+    impact: {
       gain: { ...controls.gain, step: 1, max: 1000, value: 100 },
       duration: { ...controls.duration, value: 0.367 },
       freq: { ...controls.frequency, max: 30000, value: 15800 },
     },
-    highPassFilter: {
+    body: {
       freq: { ...controls.frequency, value: 1570 },
-      Q: { ...controls.Q, max: 100, value: 66 },
+      Q: { ...controls.Q, max: 100, value: 6.6 },
     },
   }
 
@@ -73,16 +73,16 @@ class HiHat {
   playImpact(when, oscillators) {
     const bpf = this.context.createBiquadFilter()
     bpf.type = 'bandpass'
-    bpf.frequency.value = this.controls.bandPassFilter.freq.value
+    bpf.frequency.value = this.controls.impact.freq.value
 
     const vca = this.context.createGain()
     vca.gain.setValueAtTime(
-      this.controls.bandPassFilter.gain.value || exponentialZero,
+      this.controls.impact.gain.value || exponentialZero,
       when
     )
     vca.gain.exponentialRampToValueAtTime(
       exponentialZero,
-      when + this.controls.bandPassFilter.duration.value
+      when + this.controls.impact.duration.value
     )
 
     oscillators.forEach(oscillator => {
@@ -96,8 +96,8 @@ class HiHat {
   playBody(when, oscillators, impact) {
     const hpf = this.context.createBiquadFilter()
     hpf.type = 'highpass'
-    hpf.frequency.value = this.controls.highPassFilter.freq.value
-    hpf.Q.value = this.controls.highPassFilter.Q.value
+    hpf.frequency.value = this.controls.body.freq.value
+    hpf.Q.value = this.controls.body.Q.value
 
     const vca = this.context.createGain()
     vca.gain.setValueAtTime(
