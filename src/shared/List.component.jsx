@@ -9,12 +9,13 @@ class List extends React.Component {
 
   render() {
     const { items, selected, onSelect } = this.props
+    const keys = Object.keys(items)
     return (
       <ul style={{
         ...styles.container,
-        ...items.length > 4 ? styles.scroll : undefined,
+        ...keys.length > 4 ? styles.scroll : undefined,
       }}>
-        {Object.keys(items).map(value =>
+        {keys.map(value =>
           <li
             key={value}
             ref={ref => (value === selected) && (this.selectedItem = ref)}
