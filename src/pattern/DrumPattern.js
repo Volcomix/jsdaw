@@ -42,8 +42,9 @@ class DrumPattern {
 
   playTick(next) {
     Object.keys(this.pattern).forEach(synthName => {
-      if (this.pattern[synthName][this.i]) {
-        this.synths[synthName].playSound(next)
+      const sound = this.pattern[synthName][this.i]
+      if (sound) {
+        this.synths[synthName].playSound(next, sound)
       }
     })
     this.last = next

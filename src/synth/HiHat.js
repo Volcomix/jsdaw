@@ -1,5 +1,10 @@
 import controls, { exponentialZero } from './controls'
 
+const Type = {
+  closed: 1,
+  open: 2,
+}
+
 class HiHat {
   controls = {
     gain: { ...controls.gain, value: 1 },
@@ -7,7 +12,10 @@ class HiHat {
     envelope: {
       attack: { ...controls.duration, step: 0.001, value: 0.0005 },
       hold: { ...controls.duration, step: 0.001, value: 0.0005 },
-      decay: { ...controls.duration, value: 0.520 },
+      decay: {
+        closed: { ...controls.duration, value: 0.2 },
+        open: { ...controls.duration, value: 0.520 }
+      },
     },
     oscillators: {
       modGain: { ...controls.modulator.gain, max: 40000, value: 2000 },
@@ -53,7 +61,7 @@ class HiHat {
     this.destination = destination
   }
 
-  playSound(when) {
+  playSound(when, type) {
     const oscillators = ['osc1Freq', 'osc2Freq', 'osc3Freq'].map(key =>
       this.playOscillator(when, this.controls.oscillators[key])
     )
@@ -63,7 +71,15 @@ class HiHat {
 
     const attack = when + this.controls.envelope.attack.value
     const hold = attack + this.controls.envelope.hold.value
-    const decay = hold + this.controls.envelope.decay.value
+    let decay = hold
+    switch (type) {
+      case Type.closed:
+        decay += this.controls.envelope.decay.closed.value
+        break
+      case Type.open:
+        decay += this.controls.envelope.decay.open.value
+        break
+    }
     const vca = this.context.createGain()
     vca.gain.setValueAtTime(0, when)
     vca.gain.linearRampToValueAtTime(this.controls.gain.value, attack)
