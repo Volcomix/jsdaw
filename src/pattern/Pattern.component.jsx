@@ -8,6 +8,7 @@ import bassDrum from './bassDrum'
 import snareDrum from './snareDrum'
 import hiHat from './hiHat'
 import drum1 from './drum1'
+import drum2 from './drum2'
 
 import { keyColor, borderColor } from '../shared/styles'
 
@@ -18,8 +19,9 @@ const patterns = {
   snareDrum,
   hiHat,
   drum1,
+  drum2,
 }
-const defaultPattern = 'drum1'
+const defaultPattern = 'drum2'
 
 class PatternComponent extends React.Component {
   static defaultProps = { min: 43, max: 240 }
