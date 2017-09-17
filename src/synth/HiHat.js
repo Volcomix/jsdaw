@@ -35,7 +35,8 @@ class HiHat {
     impact: {
       bandPassFilter: {
         gain: { ...controls.gain, value: 1 },
-        freq: { ...controls.frequency, max: 30000, value: 15800 },
+        freq1: { ...controls.frequency, max: 30000, value: 15800 },
+        freq2: { ...controls.frequency, max: 30000, value: 15800 },
       },
       envelope: {
         attack: { ...controls.duration, step: 0.001, value: 0.0005 },
@@ -45,7 +46,8 @@ class HiHat {
     body: {
       highPassFilter: {
         gain: { ...controls.gain, step: 0.01, value: 0.01 },
-        freq: { ...controls.frequency, value: 1570 },
+        freq1: { ...controls.frequency, value: 1570 },
+        freq2: { ...controls.frequency, value: 1570 },
         Q: { ...controls.Q, max: 100, value: 6.6 },
       },
       envelope: {
@@ -71,6 +73,7 @@ class HiHat {
 
     const attack = when + this.controls.envelope.attack.value
     const hold = attack + this.controls.envelope.hold.value
+
     let decay = hold
     switch (type) {
       case Type.closed:
@@ -80,6 +83,7 @@ class HiHat {
         decay += this.controls.envelope.decay.open.value
         break
     }
+
     const vca = this.context.createGain()
     vca.gain.setValueAtTime(0, when)
     vca.gain.linearRampToValueAtTime(this.controls.gain.value, attack)
@@ -88,7 +92,6 @@ class HiHat {
       hold
     )
     vca.gain.exponentialRampToValueAtTime(exponentialZero, decay)
-    vca.gain.setValueAtTime(0, decay)
 
     impact.connect(vca)
     body.connect(vca)
@@ -123,10 +126,23 @@ class HiHat {
   playImpact(when, oscillators) {
     const bpf = this.context.createBiquadFilter()
     bpf.type = 'bandpass'
-    bpf.frequency.value = this.controls.impact.bandPassFilter.freq.value
 
     const attack = when + this.controls.impact.envelope.attack.value
     const decay = attack + this.controls.impact.envelope.decay.value
+
+    bpf.frequency.setValueAtTime(
+      this.controls.impact.bandPassFilter.freq1.value,
+      when
+    )
+    bpf.frequency.linearRampToValueAtTime(
+      this.controls.impact.bandPassFilter.freq2.value || exponentialZero,
+      attack
+    )
+    bpf.frequency.exponentialRampToValueAtTime(
+      this.controls.impact.bandPassFilter.freq1.value || exponentialZero,
+      decay
+    )
+
     const vca = this.context.createGain()
     vca.gain.setValueAtTime(0, when)
     vca.gain.linearRampToValueAtTime(
@@ -134,7 +150,6 @@ class HiHat {
       attack
     )
     vca.gain.exponentialRampToValueAtTime(exponentialZero, decay)
-    vca.gain.setValueAtTime(0, decay)
 
     oscillators.forEach(oscillator => {
       oscillator.connect(bpf)
@@ -152,17 +167,23 @@ class HiHat {
     const attack = when + this.controls.body.envelope.attack.value
     const hold = attack + this.controls.body.envelope.hold.value
     const decay = hold + this.controls.body.envelope.decay.value
-    hpf.frequency.setValueAtTime(0, when)
+
+    hpf.frequency.setValueAtTime(
+      this.controls.body.highPassFilter.freq1.value,
+      when
+    )
     hpf.frequency.linearRampToValueAtTime(
-      this.controls.body.highPassFilter.freq.value,
+      this.controls.body.highPassFilter.freq2.value,
       attack
     )
-    hpf.frequency.linearRampToValueAtTime(
-      this.controls.body.highPassFilter.freq.value || exponentialZero,
+    hpf.frequency.setValueAtTime(
+      this.controls.body.highPassFilter.freq2.value || exponentialZero,
       hold
     )
-    hpf.frequency.exponentialRampToValueAtTime(exponentialZero, decay)
-    hpf.frequency.setValueAtTime(0, decay)
+    hpf.frequency.exponentialRampToValueAtTime(
+      this.controls.body.highPassFilter.freq1.value || exponentialZero,
+      decay
+    )
 
     const gain = this.context.createGain()
     gain.gain.value = this.controls.body.highPassFilter.gain.value
