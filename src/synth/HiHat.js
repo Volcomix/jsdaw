@@ -135,29 +135,29 @@ class HiHat {
 
     const attack = when + this.controls.envelope.attack.value
     const hold = attack + this.controls.envelope.hold.value
-    let decay = hold
+    let decay
     switch (type) {
       case Type.closed:
-        decay += this.controls.envelope.decay.closed.value
+        decay = this.controls.envelope.decay.closed.value
         break
       case Type.open:
-        decay += this.controls.envelope.decay.open.value
+        decay = this.controls.envelope.decay.open.value
         break
     }
 
+    this.vca.gain.cancelScheduledValues(when)
     this.vca.gain.setValueAtTime(0, when)
-    this.vca.gain.linearRampToValueAtTime(this.controls.gain.value, attack)
     this.vca.gain.linearRampToValueAtTime(
       this.controls.gain.value || exponentialZero,
-      hold
+      attack
     )
-    this.vca.gain.exponentialRampToValueAtTime(exponentialZero, decay)
+    this.vca.gain.setTargetAtTime(exponentialZero, hold, decay)
   }
 
   playImpact(when) {
     const attack = when + this.controls.impact.envelope.attack.value
-    const decay = attack + this.controls.impact.envelope.decay.value
 
+    this.bpf.frequency.cancelScheduledValues(when)
     this.bpf.frequency.setValueAtTime(
       this.controls.impact.bandPassFilter.freq1.value,
       when
@@ -166,39 +166,42 @@ class HiHat {
       this.controls.impact.bandPassFilter.freq2.value || exponentialZero,
       attack
     )
-    this.bpf.frequency.exponentialRampToValueAtTime(
+    this.bpf.frequency.setTargetAtTime(
       this.controls.impact.bandPassFilter.freq1.value || exponentialZero,
-      decay
+      attack,
+      this.controls.impact.envelope.decay.value
     )
 
+    this.impact.gain.cancelScheduledValues(when)
     this.impact.gain.setValueAtTime(0, when)
     this.impact.gain.linearRampToValueAtTime(
       this.controls.impact.bandPassFilter.gain.value || exponentialZero,
       attack
     )
-    this.impact.gain.exponentialRampToValueAtTime(exponentialZero, decay)
+    this.impact.gain.setTargetAtTime(
+      exponentialZero,
+      attack,
+      this.controls.impact.envelope.decay.value
+    )
   }
 
   playBody(when) {
     const attack = when + this.controls.body.envelope.attack.value
     const hold = attack + this.controls.body.envelope.hold.value
-    const decay = hold + this.controls.body.envelope.decay.value
 
+    this.hpf.frequency.cancelScheduledValues(when)
     this.hpf.frequency.setValueAtTime(
       this.controls.body.highPassFilter.freq1.value,
       when
     )
     this.hpf.frequency.linearRampToValueAtTime(
-      this.controls.body.highPassFilter.freq2.value,
+      this.controls.body.highPassFilter.freq2.value || exponentialZero,
       attack
     )
-    this.hpf.frequency.setValueAtTime(
-      this.controls.body.highPassFilter.freq2.value || exponentialZero,
-      hold
-    )
-    this.hpf.frequency.exponentialRampToValueAtTime(
+    this.hpf.frequency.setTargetAtTime(
       this.controls.body.highPassFilter.freq1.value || exponentialZero,
-      decay
+      hold,
+      this.controls.body.envelope.decay.value
     )
   }
 }
