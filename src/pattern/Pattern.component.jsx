@@ -25,7 +25,7 @@ const patterns = {
   drum2,
   drum3,
 }
-const defaultPattern = 'hiHat2'
+const defaultPattern = 'drum2'
 
 class PatternComponent extends React.Component {
   static defaultProps = { min: 43, max: 240 }

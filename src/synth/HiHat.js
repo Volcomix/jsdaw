@@ -7,13 +7,13 @@ const Type = {
 
 class HiHat {
   controls = {
-    gain: { ...controls.gain, value: 1 },
+    gain: { ...controls.gain, value: 0.6 },
     envelope: {
       attack: { ...controls.duration, step: 0.001, value: 0.0005 },
       hold: { ...controls.duration, step: 0.001, value: 0.0005 },
       decay: {
-        closed: { ...controls.duration, value: 0.2 },
-        open: { ...controls.duration, value: 0.520 }
+        closed: { ...controls.duration, value: 0.03 },
+        open: { ...controls.duration, value: 2 }
       },
     },
     oscillators: {
