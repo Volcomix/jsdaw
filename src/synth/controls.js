@@ -6,6 +6,4 @@ const controls = {
   modulator: { gain: { step: 10, max: 10000 } },
 }
 
-export const exponentialZero = 0.00001
-
 export default controls

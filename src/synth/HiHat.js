@@ -1,4 +1,4 @@
-import controls, { exponentialZero } from './controls'
+import controls from './controls'
 
 const Type = {
   closed: 1,
@@ -147,11 +147,8 @@ class HiHat {
 
     this.vca.gain.cancelScheduledValues(when)
     this.vca.gain.setValueAtTime(0, when)
-    this.vca.gain.linearRampToValueAtTime(
-      this.controls.gain.value || exponentialZero,
-      attack
-    )
-    this.vca.gain.setTargetAtTime(exponentialZero, hold, decay)
+    this.vca.gain.linearRampToValueAtTime(this.controls.gain.value, attack)
+    this.vca.gain.setTargetAtTime(0, hold, decay)
   }
 
   playImpact(when) {
@@ -160,14 +157,13 @@ class HiHat {
     this.bpf.frequency.cancelScheduledValues(when)
     this.bpf.frequency.setValueAtTime(
       this.controls.impact.bandPassFilter.freq1.value,
-      when
-    )
+      when)
     this.bpf.frequency.linearRampToValueAtTime(
-      this.controls.impact.bandPassFilter.freq2.value || exponentialZero,
+      this.controls.impact.bandPassFilter.freq2.value,
       attack
     )
     this.bpf.frequency.setTargetAtTime(
-      this.controls.impact.bandPassFilter.freq1.value || exponentialZero,
+      this.controls.impact.bandPassFilter.freq1.value,
       attack,
       this.controls.impact.envelope.decay.value
     )
@@ -175,11 +171,11 @@ class HiHat {
     this.impact.gain.cancelScheduledValues(when)
     this.impact.gain.setValueAtTime(0, when)
     this.impact.gain.linearRampToValueAtTime(
-      this.controls.impact.bandPassFilter.gain.value || exponentialZero,
+      this.controls.impact.bandPassFilter.gain.value,
       attack
     )
     this.impact.gain.setTargetAtTime(
-      exponentialZero,
+      0,
       attack,
       this.controls.impact.envelope.decay.value
     )
@@ -195,11 +191,11 @@ class HiHat {
       when
     )
     this.hpf.frequency.linearRampToValueAtTime(
-      this.controls.body.highPassFilter.freq2.value || exponentialZero,
+      this.controls.body.highPassFilter.freq2.value,
       attack
     )
     this.hpf.frequency.setTargetAtTime(
-      this.controls.body.highPassFilter.freq1.value || exponentialZero,
+      this.controls.body.highPassFilter.freq1.value,
       hold,
       this.controls.body.envelope.decay.value
     )
