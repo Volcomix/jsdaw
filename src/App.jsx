@@ -7,8 +7,6 @@ import BassDrum from './synth/BassDrum'
 import SnareDrum from './synth/SnareDrum'
 import HiHat from './synth/HiHat'
 
-import { toName } from './synth/Synth.component'
-
 const context = new AudioContext()
 const synths = {
   bassDrum: new BassDrum(context, context.destination),
@@ -24,13 +22,11 @@ class App extends React.Component {
     return (
       <div style={styles.container}>
         <Pattern context={context} synths={synths} />
-        {Object.keys(synths).map(synthName => {
-          const synth = synths[synthName]
+        {Object.entries(synths).map(([synthName, synth]) => {
           return (
             <Synth
-              name={toName(synth.constructor.name)}
               key={synthName}
-              controls={synth.controls}
+              synth={synth}
               isSelected={selected === synthName}
               onSelect={() => this.handleSynthSelect(synthName)}
             />

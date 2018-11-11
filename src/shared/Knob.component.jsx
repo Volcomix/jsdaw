@@ -136,6 +136,7 @@ class Knob extends React.Component {
     nextValue = this.clamp(nextValue)
     this.centerY = event.clientY
     this.control.value = nextValue
+    this.props.onChange(nextValue)
     this.setState({ value: nextValue })
   }
 
@@ -148,6 +149,7 @@ class Knob extends React.Component {
     let nextValue = value - delta * step * sensitivity
     nextValue = this.clamp(nextValue)
     this.control.value = nextValue
+    this.props.onChange(nextValue)
     this.setState({ value: nextValue })
   }
 

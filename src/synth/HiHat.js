@@ -61,13 +61,11 @@ class HiHat {
     this.context = context
     this.destination = destination
     this.createSound()
+    this.update()
   }
 
   createSound() {
-    this.oscillators = ['osc1Freq', 'osc2Freq', 'osc3Freq'].map(key =>
-      this.createOscillator(this.controls.oscillators[key])
-    )
-
+    this.oscillators = Array.from({ length: 3 }, () => this.createOscillator())
     this.createImpact()
     this.createBody()
 
@@ -79,17 +77,14 @@ class HiHat {
     this.vca.connect(this.destination)
   }
 
-  createOscillator(frequency) {
+  createOscillator() {
     const modulator = this.context.createOscillator()
     modulator.type = 'square'
-    modulator.frequency.value = frequency.modulator.value
 
     const modulatorGain = this.context.createGain()
-    modulatorGain.gain.value = this.controls.oscillators.modGain.value
 
     const carrier = this.context.createOscillator()
     carrier.type = 'square'
-    carrier.frequency.value = frequency.carrier.value
 
     modulator.connect(modulatorGain)
     modulatorGain.connect(carrier.frequency)
@@ -97,36 +92,41 @@ class HiHat {
     modulator.start()
     carrier.start()
 
-    return carrier
+    return { modulator, modulatorGain, carrier }
   }
 
   createImpact() {
     this.bpf = this.context.createBiquadFilter()
     this.bpf.type = 'bandpass'
-    this.bpf.frequency.value = this.controls.impact.bandPassFilter.freq1.value
 
     this.impact = this.context.createGain()
     this.impact.gain.value = 0
 
-    this.oscillators.forEach(oscillator => {
-      oscillator.connect(this.bpf)
-    })
+    this.oscillators.forEach(({ carrier }) => carrier.connect(this.bpf))
     this.bpf.connect(this.impact)
   }
 
   createBody() {
     this.hpf = this.context.createBiquadFilter()
     this.hpf.type = 'highpass'
-    this.hpf.frequency.value = this.controls.body.highPassFilter.freq1.value
-    this.hpf.Q.value = this.controls.body.highPassFilter.Q.value
 
     this.body = this.context.createGain()
-    this.body.gain.value = this.controls.body.highPassFilter.gain.value
 
-    this.oscillators.forEach(oscillator => {
-      oscillator.connect(this.hpf)
-    })
+    this.oscillators.forEach(({ carrier }) => carrier.connect(this.hpf))
     this.hpf.connect(this.body)
+  }
+
+  update() {
+    this.oscillators.forEach(({ modulator, modulatorGain, carrier }, i) => {
+      const frequency = this.controls.oscillators[`osc${i + 1}Freq`]
+      modulator.frequency.value = frequency.modulator.value
+      modulatorGain.gain.value = this.controls.oscillators.modGain.value
+      carrier.frequency.value = frequency.carrier.value
+    })
+    this.bpf.frequency.value = this.controls.impact.bandPassFilter.freq1.value
+    this.hpf.frequency.value = this.controls.body.highPassFilter.freq1.value
+    this.hpf.Q.value = this.controls.body.highPassFilter.Q.value
+    this.body.gain.value = this.controls.body.highPassFilter.gain.value
   }
 
   playSound(when, type) {
@@ -135,7 +135,6 @@ class HiHat {
 
     const attack = when + this.controls.envelope.attack.value
     const hold = attack + this.controls.envelope.hold.value
-
     let decay = hold
     switch (type) {
       case Type.closed:

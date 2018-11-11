@@ -8,7 +8,7 @@ class Synth extends React.Component {
   state = { isSelecting: false }
 
   render() {
-    const { name, controls, isSelected, onSelect } = this.props
+    const { synth, isSelected, onSelect } = this.props
     const { isSelecting } = this.state
     return (
       <div style={{
@@ -36,16 +36,16 @@ class Synth extends React.Component {
           onMouseOut={this.handleMouseUp}
           onMouseUp={this.handleMouseUp}
         >
-          {name}
+          {toName(synth.constructor.name)}
         </span>
-        {Object.keys(controls).map(key => {
-          const control = controls[key]
+        {Object.entries(synth.controls).map(([key, control]) => {
           if (control.value === undefined) {
             return (
               <SynthPart
                 key={key}
                 name={toName(key)}
                 controls={control}
+                onChange={this.handleControlChange}
               />
             )
           } else {
@@ -54,6 +54,7 @@ class Synth extends React.Component {
                 key={key}
                 label={toName(key)}
                 control={control}
+                onChange={this.handleControlChange}
               />
             )
           }
@@ -68,6 +69,10 @@ class Synth extends React.Component {
 
   handleMouseUp = () => {
     this.setState({ isSelecting: false })
+  }
+
+  handleControlChange = () => {
+    this.props.synth.update && this.props.synth.update()
   }
 }
 
