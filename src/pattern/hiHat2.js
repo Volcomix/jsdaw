@@ -1,5 +1,5 @@
 const hiHat = {
-  hiHat: [1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1],
+  hiHat: [2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0],
 }
 
 export default hiHat

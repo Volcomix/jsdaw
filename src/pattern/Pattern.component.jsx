@@ -8,6 +8,7 @@ import bassDrum from './bassDrum'
 import snareDrum from './snareDrum'
 import hiHat1 from './hiHat1'
 import hiHat2 from './hiHat2'
+import hiHat3 from './hiHat3'
 import drum1 from './drum1'
 import drum2 from './drum2'
 import drum3 from './drum3'
@@ -21,6 +22,7 @@ const patterns = {
   snareDrum,
   hiHat1,
   hiHat2,
+  hiHat3,
   drum1,
   drum2,
   drum3,

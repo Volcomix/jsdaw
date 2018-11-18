@@ -13,6 +13,9 @@ class DrumPattern {
   }
 
   start() {
+    Object.values(this.synths).forEach(synth => {
+      synth.start && synth.start()
+    })
     // Delay to ear the sound begin
     this.playTick(this.context.currentTime + 0.05)
     this.isLooping = true
@@ -20,6 +23,9 @@ class DrumPattern {
   }
 
   stop() {
+    Object.values(this.synths).forEach(synth => {
+      synth.stop && synth.stop()
+    })
     this.isLooping = false
     this.i = 0
   }

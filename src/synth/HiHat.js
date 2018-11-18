@@ -13,11 +13,13 @@ class HiHat {
       hold: { ...controls.duration, step: 0.001, value: 0.0005 },
       decay: {
         closed: { ...controls.duration, value: 0.03 },
-        open: { ...controls.duration, value: 2 }
+        open: { ...controls.duration, value: 0.18 }
       },
     },
     oscillators: {
-      modGain: { ...controls.modulator.gain, max: 40000, value: 2000 },
+      modFm: { ...controls.modulator.gain, max: 40000, value: 5000 },
+      modPitch: { ...controls.modulator.gain, max: 40000, value: 5000 },
+
       osc1Freq: {
         modulator: { ...controls.frequency, value: 1047 },
         carrier: { ...controls.frequency, value: 1481 },
@@ -34,25 +36,25 @@ class HiHat {
     impact: {
       bandPassFilter: {
         gain: { ...controls.gain, value: 1 },
-        freq1: { ...controls.frequency, max: 30000, value: 15800 },
-        freq2: { ...controls.frequency, max: 30000, value: 15800 },
+        freq1: { ...controls.frequency, max: 30000, value: 8650 },
+        freq2: { ...controls.frequency, max: 30000, value: 12820 },
       },
       envelope: {
         attack: { ...controls.duration, step: 0.001, value: 0.0005 },
-        decay: { ...controls.duration, value: 0.367 },
+        decay: { ...controls.duration, value: 0.15 },
       },
     },
     body: {
       highPassFilter: {
-        gain: { ...controls.gain, step: 0.01, value: 0.01 },
-        freq1: { ...controls.frequency, value: 1570 },
-        freq2: { ...controls.frequency, value: 1570 },
-        Q: { ...controls.Q, max: 100, value: 6.6 },
+        gain: { ...controls.gain, step: 0.01, value: 0.4 },
+        freq1: { ...controls.frequency, value: 1880 },
+        freq2: { ...controls.frequency, value: 3070 },
+        Q: { ...controls.Q, max: 100, value: 1 },
       },
       envelope: {
         attack: { ...controls.duration, step: 0.001, value: 0.0026 },
         hold: { ...controls.duration, step: 0.001, value: 0.0005 },
-        decay: { ...controls.duration, value: 3.7 },
+        decay: { ...controls.duration, value: 0.3 },
       },
     },
   }
@@ -81,18 +83,21 @@ class HiHat {
     const modulator = this.context.createOscillator()
     modulator.type = 'square'
 
-    const modulatorGain = this.context.createGain()
+    const fm = this.context.createGain()
+    const pitch = this.context.createGain()
 
     const carrier = this.context.createOscillator()
     carrier.type = 'square'
 
-    modulator.connect(modulatorGain)
-    modulatorGain.connect(carrier.frequency)
+    modulator.connect(fm)
+    modulator.connect(pitch)
+    fm.connect(carrier.frequency)
+    pitch.connect(carrier.detune)
 
     modulator.start()
     carrier.start()
 
-    return { modulator, modulatorGain, carrier }
+    return { modulator, fm, pitch, carrier }
   }
 
   createImpact() {
@@ -117,10 +122,11 @@ class HiHat {
   }
 
   update() {
-    this.oscillators.forEach(({ modulator, modulatorGain, carrier }, i) => {
+    this.oscillators.forEach(({ modulator, fm, pitch, carrier }, i) => {
       const frequency = this.controls.oscillators[`osc${i + 1}Freq`]
       modulator.frequency.value = frequency.modulator.value
-      modulatorGain.gain.value = this.controls.oscillators.modGain.value
+      fm.gain.value = this.controls.oscillators.modFm.value
+      pitch.gain.value = this.controls.oscillators.modPitch.value
       carrier.frequency.value = frequency.carrier.value
     })
     this.bpf.frequency.value = this.controls.impact.bandPassFilter.freq1.value
